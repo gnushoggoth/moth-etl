@@ -1,0 +1,15 @@
+{
+  "name": "my-hypergraph-project",
+  "version": "1.0.0",
+  "description": "Hypergraph + Delta Log in Node.js & Postgres",
+  "main": "testHypergraph.js",
+  "scripts": {
+    "start": "node testHypergraph.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "pg": "^8.11.1"
+  }
+}
