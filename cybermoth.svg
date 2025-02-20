@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <!-- Dark background with digital noise effect -->
+  <rect width="800" height="600" fill="#0a0a0f"/>
+  <pattern id="noise" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+    <rect width="100" height="100" fill="#0a0a0f"/>
+    <circle cx="50" cy="50" r="1" fill="#1a1a2f" opacity="0.3"/>
+    <circle cx="20" cy="80" r="1" fill="#1a1a2f" opacity="0.3"/>
+    <circle cx="80" cy="20" r="1" fill="#1a1a2f" opacity="0.3"/>
+  </pattern>
+  <rect width="800" height="600" fill="url(#noise)"/>
+  
+  <!-- Circuit board patterns -->
+  <path d="M0 100 H800 M0 300 H800 M0 500 H800" 
+        stroke="#1a1a4f" 
+        stroke-width="0.5"
+        opacity="0.3"/>
+  <path d="M100 0 V600 M300 0 V600 M500 0 V600 M700 0 V600" 
+        stroke="#1a1a4f" 
+        stroke-width="0.5"
+        opacity="0.3"/>
+        
+  <!-- Cyber moth -->
+  <g transform="translate(400,300)">
+    <!-- Wings -->
+    <path d="M0 0 L-150 -100 L-50 -180 L0 -150 L50 -180 L150 -100 Z" 
+          fill="#2a2a4f" 
+          stroke="#8a2be2" 
+          stroke-width="2"/>
+    <path d="M0 0 L-150 100 L-50 180 L0 150 L50 180 L150 100 Z" 
+          fill="#2a2a4f" 
+          stroke="#8a2be2" 
+          stroke-width="2"/>
+          
+    <!-- Digital patterns on wings -->
+    <path d="M-100 -50 L-120 -70 M-80 -90 L-60 -110" 
+          stroke="#ff69b4" 
+          stroke-width="1.5"/>
+    <path d="M100 -50 L120 -70 M80 -90 L60 -110" 
+          stroke="#ff69b4" 
+          stroke-width="1.5"/>
+    <path d="M-100 50 L-120 70 M-80 90 L-60 110" 
+          stroke="#ff69b4" 
+          stroke-width="1.5"/>
+    <path d="M100 50 L120 70 M80 90 L60 110" 
+          stroke="#ff69b4" 
+          stroke-width="1.5"/>
+          
+    <!-- Body -->
+    <path d="M0 -30 L0 30" 
+          stroke="#8a2be2" 
+          stroke-width="8"/>
+          
+    <!-- Antennae -->
+    <path d="M0 -30 L-20 -60 M0 -30 L20 -60" 
+          stroke="#8a2be2" 
+          stroke-width="2"/>
+          
+    <!-- Glowing effects -->
+    <circle cx="0" cy="0" r="5" fill="#ff69b4"/>
+    <circle cx="-20" cy="-60" r="2" fill="#ff69b4"/>
+    <circle cx="20" cy="-60" r="2" fill="#ff69b4"/>
+  </g>
+  
+  <!-- Binary code rain effect -->
+  <g opacity="0.3">
+    <text x="100" y="50" fill="#00ff00" font-family="monospace">01001</text>
+    <text x="300" y="150" fill="#00ff00" font-family="monospace">10110</text>
+    <text x="500" y="250" fill="#00ff00" font-family="monospace">11001</text>
+    <text x="200" y="350" fill="#00ff00" font-family="monospace">01010</text>
+    <text x="600" y="450" fill="#00ff00" font-family="monospace">10101</text>
+  </g>
+</svg>
