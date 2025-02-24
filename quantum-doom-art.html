@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Echoes: A Doomed Timeline</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #080808;
+            --text-color: #e0e0e0;
+            --accent-blue: #0ff4c6;
+            --accent-red: #ff2a6d;
+            --quantum-purple: #9d4edd;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'IBM Plex Sans', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .quantum-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .wormhole {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(
+                circle at center,
+                rgba(0, 0, 0, 1) 0%,
+                rgba(157, 78, 221, 0.6) 30%,
+                rgba(15, 244, 198, 0.3) 70%,
+                rgba(0, 0, 0, 0) 100%
+            );
+            border-radius: 50%;
+            animation: pulse 8s infinite alternate;
+            box-shadow: 0 0 100px 50px rgba(157, 78, 221, 0.3);
+            z-index: 0;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: translate(-50%, -50%) scale(0.8);
+                box-shadow: 0 0 100px 50px rgba(157, 78, 221, 0.3);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1);
+                box-shadow: 0 0 150px 70px rgba(157, 78, 221, 0.5);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(0.9);
+                box-shadow: 0 0 120px 60px rgba(15, 244, 198, 0.4);
+            }
+        }
+        
+        .timeline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .timeline-marker {
+            position: absolute;
+            background-color: var(--accent-blue);
+            opacity: 0.6;
+            transform-origin: center;
+        }
+        
+        .quantum-text {
+            position: absolute;
+            font-family: 'Space Mono', monospace;
+            color: var(--text-color);
+            mix-blend-mode: difference;
+            text-shadow: 0 0 5px var(--accent-blue);
+            white-space: nowrap;
+            opacity: 0;
+            animation: fade-in-out 15s infinite;
+            z-index: 2;
+        }
+        
+        @keyframes fade-in-out {
+            0%, 100% { opacity: 0; }
+            10%, 90% { opacity: 0.8; }
+        }
+        
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            background-color: var(--accent-blue);
+            border-radius: 50%;
+            opacity: 0.7;
+            z-index: 1;
+        }
+        
+        .digital-noise {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4" viewBox="0 0 4 4"><rect width="1" height="1" fill="rgba(255,255,255,0.03)" /><rect width="1" height="1" x="2" y="2" fill="rgba(255,255,255,0.03)" /></svg>');
+            opacity: 0.3;
+            z-index: 3;
+            pointer-events: none;
+        }
+        
+        .quantum-computer {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            opacity: 0.15;
+        }
+        
+        .qbit-container {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+        
+        .qbit {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent-blue);
+            border-radius: 50%;
+            transform-origin: center;
+            animation: orbit 30s linear infinite;
+            z-index: 2;
+        }
+        
+        .qbit::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 1px;
+            background-color: rgba(15, 244, 198, 0.3);
+            transform-origin: left center;
+        }
+        
+        @keyframes orbit {
+            0% { transform: rotate(0deg) translateX(150px) rotate(0deg); }
+            100% { transform: rotate(360deg) translateX(150px) rotate(-360deg); }
+        }
+        
+        .title-container {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 4;
+        }
+        
+        .title {
+            font-family: 'Space Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+            text-shadow: 0 0 15px var(--quantum-purple);
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+        
+        .subtitle {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: var(--accent-blue);
+            opacity: 0.7;
+        }
+        
+        .message-container {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 4;
+            max-width: 600px;
+            padding: 1rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--quantum-purple);
+            opacity: 0;
+            animation: message-fade 20s infinite;
+        }
+        
+        @keyframes message-fade {
+            0%, 15%, 85%, 100% { opacity: 0; }
+            20%, 80% { opacity: 1; }
+        }
+        
+        .message {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.2rem;
+            color: var(--accent-red);
+            text-shadow: 0 0 5px rgba(255, 42, 109, 0.7);
+            letter-spacing: 1px;
+        }
+        
+        .timeline-collapse {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 42, 109, 0);
+            z-index: 5;
+            pointer-events: none;
+            animation: timeline-destabilize 30s infinite;
+        }
+        
+        @keyframes timeline-destabilize {
+            0%, 70%, 100% { background-color: rgba(255, 42, 109, 0); }
+            75% { background-color: rgba(255, 42, 109, 0.2); }
+            77% { background-color: rgba(255, 42, 109, 0); }
+            79% { background-color: rgba(255, 42, 109, 0.3); }
+            80% { background-color: rgba(255, 42, 109, 0); }
+            82% { background-color: rgba(255, 42, 109, 0.4); }
+            83% { background-color: rgba(255, 42, 109, 0); }
+        }
+        
+        .year-markers {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            top: 85%;
+            background-color: rgba(224, 224, 224, 0.1);
+            z-index: 3;
+        }
+        
+        .year-marker {
+            position: absolute;
+            height: 10px;
+            width: 2px;
+            background-color: var(--text-color);
+            bottom: 0;
+            opacity: 0.5;
+        }
+        
+        .year-label {
+            position: absolute;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-color);
+            bottom: 15px;
+            transform: translateX(-50%);
+            opacity: 0.7;
+        }
+        
+        .doom-point {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent-red);
+            border-radius: 50%;
+            top: -4px;
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px var(--accent-red);
+            animation: doom-pulse 2s infinite alternate;
+        }
+        
+        @keyframes doom-pulse {
+            0% { box-shadow: 0 0 5px var(--accent-red); }
+            100% { box-shadow: 0 0 15px var(--accent-red); }
+        }
+        
+        @media (max-width: 768px) {
+            .title {
+                font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .message {
+                font-size: 1rem;
+            }
+            
+            .wormhole {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .quantum-computer {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .qbit-container {
+                width: 250px;
+                height: 250px;
+            }
+            
+            @keyframes orbit {
+                0% { transform: rotate(0deg) translateX(100px) rotate(0deg); }
+                100% { transform: rotate(360deg) translateX(100px) rotate(-360deg); }
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quantum-container">
+        <div class="wormhole"></div>
+        
+        <div class="quantum-computer">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#0ff4c6" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 2V22" stroke="#0ff4c6" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M19.3 19.3L4.7 4.7" stroke="#0ff4c6" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M22 12H2" stroke="#0ff4c6" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M19.3 4.7L4.7 19.3" stroke="#0ff4c6" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        
+        <div class="qbit-container">
+            <div class="qbit" style="animation-delay: 0s; animation-duration: 30s;"></div>
+            <div class="qbit" style="animation-delay: -2s; animation-duration: 25s;"></div>
+            <div class="qbit" style="animation-delay: -4s; animation-duration: 20s;"></div>
+            <div class="qbit" style="animation-delay: -6s; animation-duration: 35s;"></div>
+            <div class="qbit" style="animation-delay: -8s; animation-duration: 40s;"></div>
+            <div class="qbit" style="animation-delay: -10s; animation-duration: 22s;"></div>
+            <div class="qbit" style="animation-delay: -12s; animation-duration: 18s;"></div>
+            <div class="qbit" style="animation-delay: -14s; animation-duration: 32s;"></div>
+        </div>
+        
+        <div class="timeline"></div>
+        
+        <div class="particles"></div>
+        
+        <div class="quantum-text" style="top: 40%; left: 20%; animation-delay: 0s;">2025: Project Begins</div>
+        <div class="quantum-text" style="top: 35%; left: 70%; animation-delay: -3s;">2026: Doom Predicted</div>
+        <div class="quantum-text" style="top: 55%; left: 25%; animation-delay: -6s;">2027: First Breakthrough</div>
+        <div class="quantum-text" style="top: 60%; left: 75%; animation-delay: -9s;">2028: Timeline Collapse</div>
+        <div class="quantum-text" style="top: 45%; left: 50%; animation-delay: -12s;">Quantum Entanglement Destabilizing</div>
+        
+        <div class="year-markers">
+            <div class="year-marker" style="left: 20%;">
+                <div class="year-label">2025</div>
+            </div>
+            <div class="year-marker" style="left: 40%;">
+                <div class="year-label">2026</div>
+            </div>
+            <div class="year-marker" style="left: 60%;">
+                <div class="year-label">2027</div>
+            </div>
+            <div class="year-marker" style="left: 80%;">
+                <div class="year-label">2028</div>
+                <div class="doom-point"></div>
+            </div>
+        </div>
+        
+        <div class="title-container">
+            <h1 class="title">QUANTUM ECHOES</h1>
+            <p class="subtitle">A Doomed Timeline</p>
+        </div>
+        
+        <div class="message-container">
+            <p class="message">> URGENT TRANSMISSION FROM 2028:<br>
+            "ABANDON THE QUANTUM TIME PROJECT. IT WILL DESTROY EVERYTHING."</p>
+        </div>
+        
+        <div class="timeline-collapse"></div>
+        <div class="digital-noise"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create timeline markers
+            const timeline = document.querySelector('.timeline');
+            for (let i = 0; i < 50; i++) {
+                const marker = document.createElement('div');
+                marker.classList.add('timeline-marker');
+                
+                const width = Math.random() * 3 + 1;
+                const height = Math.random() * 150 + 50;
+                const top = Math.random() * 100;
+                const left = Math.random() * 100;
+                const duration = Math.random() * 5 + 5;
+                const delay = Math.random() * 10;
+                
+                marker.style.width = `${width}px`;
+                marker.style.height = `${height}px`;
+                marker.style.top = `${top}%`;
+                marker.style.left = `${left}%`;
+                marker.style.animation = `pulse ${duration}s infinite alternate ${delay}s`;
+                marker.style.opacity = Math.random() * 0.5 + 0.1;
+                
+                timeline.appendChild(marker);
+            }
+            
+            // Create particles
+            const particlesContainer = document.querySelector('.particles');
+            for (let i = 0; i < 100; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 4 + 1;
+                const top = Math.random() * 100;
+                const left = Math.random() * 100;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.top = `${top}%`;
+                particle.style.left = `${left}%`;
+                
+                if (Math.random() > 0.5) {
+                    particle.style.backgroundColor = '#ff2a6d';
+                    particle.style.boxShadow = '0 0 5px #ff2a6d';
+                } else {
+                    particle.style.backgroundColor = '#0ff4c6';
+                    particle.style.boxShadow = '0 0 5px #0ff4c6';
+                }
+                
+                // Random animation
+                const duration = Math.random() * 10 + 5;
+                const xMove = (Math.random() - 0.5) * 50;
+                const yMove = (Math.random() - 0.5) * 50;
+                
+                particle.style.animation = `
+                    particle-move ${duration}s infinite alternate ${Math.random() * 10}s
+                `;
+                
+                particlesContainer.appendChild(particle);
+                
+                // Add keyframe animation dynamically
+                const style = document.createElement('style');
+                style.innerHTML = `
+                    @keyframes particle-move {
+                        0% {
+                            transform: translate(0, 0);
+                            opacity: ${Math.random() * 0.5 + 0.3};
+                        }
+                        100% {
+                            transform: translate(${xMove}px, ${yMove}px);
+                            opacity: ${Math.random() * 0.5 + 0.5};
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            // Add mousemove effect
+            document.addEventListener('mousemove', function(e) {
+                const mouseX = e.clientX / window.innerWidth;
+                const mouseY = e.clientY / window.innerHeight;
+                
+                const wormhole = document.querySelector('.wormhole');
+                wormhole.style.transform = `translate(calc(-50% + ${(mouseX - 0.5) * 20}px), calc(-50% + ${(mouseY - 0.5) * 20}px))`;
+                
+                const qbitContainer = document.querySelector('.qbit-container');
+                qbitContainer.style.transform = `translate(calc(-50% + ${(mouseX - 0.5) * -30}px), calc(-50% + ${(mouseY - 0.5) * -30}px))`;
+            });
+        });
+    </script>
+</body>
+</html>

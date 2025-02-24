@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N3T_BRKR :: MLflow Deployment Terminal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-pink: #ff2a6d;
+            --neon-blue: #05d9e8;
+            --neon-green: #00ff9c;
+            --dark-purple: #0a0a1a;
+            --cyber-black: #05060f;
+            --glitch-delay: 3s;
+        }
+        
+        body {
+            background-color: var(--cyber-black);
+            color: var(--neon-green);
+            font-family: 'Share Tech Mono', monospace;
+            overflow-x: hidden;
+        }
+        
+        .orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .neon-text {
+            text-shadow: 0 0 5px var(--neon-green), 
+                         0 0 10px var(--neon-green),
+                         0 0 20px var(--neon-green);
+        }
+        
+        .neon-pink {
+            color: var(--neon-pink);
+            text-shadow: 0 0 5px var(--neon-pink), 
+                         0 0 10px var(--neon-pink),
+                         0 0 20px var(--neon-pink);
+        }
+        
+        .neon-blue {
+            color: var(--neon-blue);
+            text-shadow: 0 0 5px var(--neon-blue), 
+                         0 0 10px var(--neon-blue),
+                         0 0 20px var(--neon-blue);
+        }
+        
+        .cyber-border {
+            border: 1px solid var(--neon-green);
+            box-shadow: 0 0 10px rgba(0, 255, 156, 0.5);
+        }
+        
+        .terminal-text {
+            position: relative;
+            width: fit-content;
+            margin: 0 auto;
+        }
+        
+        .terminal-text::after {
+            content: '▋';
+            position: absolute;
+            right: -12px;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        .glitch {
+            position: relative;
+        }
+        
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 var(--neon-pink);
+            animation: glitch-animation 2s infinite linear alternate-reverse;
+            clip: rect(44px, 450px, 56px, 0);
+        }
+        
+        .glitch::after {
+            left: -2px;
+            text-shadow: 2px 0 var(--neon-blue);
+            animation: glitch-animation 3s infinite linear alternate-reverse;
+            clip: rect(24px, 450px, 36px, 0);
+        }
+        
+        @keyframes glitch-animation {
+            0% {
+                clip: rect(55px, 9999px, 56px, 0);
+            }
+            5% {
+                clip: rect(36px, 9999px, 4px, 0);
+            }
+            10% {
+                clip: rect(85px, 9999px, 59px, 0);
+            }
+            15% {
+                clip: rect(89px, 9999px, 93px, 0);
+            }
+            20% {
+                clip: rect(32px, 9999px, 5px, 0);
+            }
+            25% {
+                clip: rect(5px, 9999px, 80px, 0);
+            }
+            30% {
+                clip: rect(2px, 9999px, 26px, 0);
+            }
+            35% {
+                clip: rect(28px, 9999px, 44px, 0);
+            }
+            40% {
+                clip: rect(66px, 9999px, 78px, 0);
+            }
+            45% {
+                clip: rect(33px, 9999px, 75px, 0);
+            }
+            50% {
+                clip: rect(51px, 9999px, 56px, 0);
+            }
+            55% {
+                clip: rect(75px, 9999px, 32px, 0);
+            }
+            60% {
+                clip: rect(39px, 9999px, 79px, 0);
+            }
+            65% {
+                clip: rect(46px, 9999px, 20px, 0);
+            }
+            70% {
+                clip: rect(94px, 9999px, 36px, 0);
+            }
+            75% {
+                clip: rect(4px, 9999px, 91px, 0);
+            }
+            80% {
+                clip: rect(18px, 9999px, 14px, 0);
+            }
+            85% {
+                clip: rect(95px, 9999px, 73px, 0);
+            }
+            90% {
+                clip: rect(9px, 9999px, 26px, 0);
+            }
+            95% {
+                clip: rect(48px, 9999px, 97px, 0);
+            }
+            100% {
+                clip: rect(12px, 9999px, 15px, 0);
+            }
+        }
+        
+        .scan-lines::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0) 50%,
+                rgba(0, 0, 0, 0.25) 50%
+            );
+            background-size: 100% 4px;
+            z-index: 100;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+        
+        .noise::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAFDklEQVRoge2ZW4hVVRjHf2s8jjNONU2mjWUPUWQ91EOBEYU9WRBRT1EPIUQPFUGU9hIUFFQPvQpBQkGUPRgFUdBLQpBgL5phaAqaZmZjNo7juS1d+/b1sM6cPWdfc/Y+e8YJf7Cfs9a31v6+/15r7bUWHMRBHEQT0HEA+zwX6AYmgG3AYGHPu4Ax4K0C+6wc3cBuYLbw7wYWAvcnlC1rpks1Nj5X9XMVcAmwHzgGaE8oNwaMAAeBk4Bu4NlC3jYNHKnQ2Q8cB9zgfQ/wGXAX0JmhmwXAGcCLwFc1eTdsTJYV9gHvAq8DO4r5wYsxTkLqXIrKnAWcCuxDUUuLZlJIoiLKb3kkcC9wA3BUQpkFwMnAWuBBYJjIqKVeflvDLtOilRsR3YraaXcpWsBKYD/KFVlIpVTrBHAi8ESd8X7g3NSaM6DMRERqcq5HGfcepKFexE8YYLWj1zJbgJzTCVwMfILaLmIUeNr7XlRWgW4aEpE5wLvAQ8C5jl6JyM8lIbWKRxEYQqbKpdbKkdpWjEsIRWQ97nDYiDI/2J6X+mNZxrgKtfU48BLwA/AzMmuvWHm7nSzrDIl8j8JsQRKRL5GIe1Bu2GToQeEuHJ8DDwMPAO876sNB8CkqlcWqkRJO4o7jONCXPO+Z0Xef/wJwK9CNTBoSBJwP7Kncjd5GpIyTuOM4AVxW04+LyCbgTeAaYKmjPgN8aOVtdZWbkUNhyaYpC8eA1cBXKXpt5m1Epo5aHMcpdCTQh0Q87uhDwAPAEuACR70auASVZWHJpikL+9E24Angj5qcmNE/oIicAFwNLHLUjYnjtGXNjBr7+sjOhyYi8inwFPAscDmwH5lG+F5vBu5BHrrHUdPIJE/dRORLXA4aRabJQpP7EYXlPeAn4AIrzwvPyRaevciDL3PU1CdvQ+a6H/cLZF7YnpZISSZdhUTMQWNF55x+ktnGvQRlDwJuLDKhbO9c5FMmlZZMtaKEwh8uuJL0IvIFcCdwaeCaFWiPcnHiODcgQaMkvGARh9YURoAHgUeQ53wfuA14FQl2I5d7aEeO+Wq0SnNYRK4OXJNEZBZqvMqkB3l9H4+ia0gL8vJ7gfOQR96MfMZ4TXnvZzzaiNNbXTEZJo2IM3RbFnY5utsG5MmNxhRQ0Q6Jh9IItJPtpUvNSMR51Qvt97nABk/FWkj6z1nAD8gUBHLVpZuRl91EfKTyHJFtg+OAl9E+JcsxAWpveWA76cFmN2rzDGfI/CiB9vdYMzILLMw8iT1oFJYzG2PRQn7gOhTmyxLZhkQsITtHdZJ+CrYd5dAJQhJxkYU9aLmRl0gfsvMy1FZWn1Nk+4RJJGIakntRw3kOqS0pJ5r7+1NoGBaKrI/aEdJ9QgX5n82MIcK81i5yHtJyPgJj6KGg0cC1UfRMt6zGlgQ6WyUypXyMrMbGccuVNGcxhLw3cDbyMS4B64jb3IKe5ZajM+Yryf5qtb/ggRQHxpFgd87c3492sxMoNxQ5s6chEXs9LDtELEFP2FY/S0qePzgJMCL++2ISeT3F3HB8YEQ6kI9YYujSIzKE9jNBMFX47ztGpFsjss3RT0Cr1Bkl0lYRsRHpQKvrIPRuNcGtANb6RExBOzOmf5QRi4gRseWKtxfdDXx3aiKngVF6HO1Thmf0rUF9SdKjEekkww/8x/EP3D/Wl2vo4DoAAAAASUVORK5CYII=");
+            opacity: 0.05;
+            z-index: 101;
+            pointer-events: none;
+        }
+        
+        .matrix-animation {
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .matrix-animation::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 255, 156, 0.05), rgba(0, 255, 156, 0.02));
+            z-index: -1;
+        }
+        
+        .matrix-char {
+            position: absolute;
+            color: var(--neon-green);
+            opacity: 0;
+            font-size: 1.2rem;
+            transform: translateY(0);
+            animation: matrix-fall 7s linear infinite;
+        }
+        
+        @keyframes matrix-fall {
+            0% {
+                opacity: 0;
+                transform: translateY(-100px);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(calc(100vh + 100px));
+            }
+        }
+        
+        .angled-section {
+            position: relative;
+            background: linear-gradient(170deg, var(--neon-pink) 0%, rgba(255, 42, 109, 0) 60%);
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+        
+        .angled-bottom {
+            clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+            background: linear-gradient(190deg, rgba(5, 217, 232, 0) 40%, var(--neon-blue) 100%);
+        }
+        
+        .cyber-button {
+            position: relative;
+            background: transparent;
+            border: 2px solid var(--neon-green);
+            color: var(--neon-green);
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            overflow: hidden;
+            transition: 0.5s;
+            box-shadow: 0 0 10px var(--neon-green);
+        }
+        
+        .cyber-button:hover {
+            background: var(--neon-green);
+            color: var(--cyber-black);
+            box-shadow: 0 0 20px var(--neon-green);
+        }
+        
+        .cyber-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 156, 0.4), transparent);
+            transition: 0.5s;
+        }
+        
+        .cyber-button:hover::before {
+            left: 100%;
+        }
+        
+        /* Floating grid elements */
+        .grid-element {
+            position: absolute;
+            border: 1px solid var(--neon-green);
+            opacity: 0.3;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body class="scan-lines noise">
+    <!-- Matrix animation background -->
+    <div class="matrix-animation fixed top-0 left-0 w-full h-full z-0"></div>
+    
+    <!-- Floating grid elements -->
+    <div class="grid-element" style="width: 150px; height: 150px; top: 10%; left: 5%; border-color: var(--neon-pink);"></div>
+    <div class="grid-element" style="width: 100px; height: 100px; top: 60%; left: 80%; border-color: var(--neon-blue);"></div>
+    <div class="grid-element" style="width: 200px; height: 80px; top: 40%; left: 75%;"></div>
+    <div class="grid-element" style="width: 80px; height: 200px; top: 70%; left: 20%;"></div>
+    
+    <div class="container mx-auto px-4 py-12 relative z-10">
+        <header class="text-center mb-16">
+            <h1 class="glitch orbitron text-5xl md:text-7xl font-bold neon-text mb-6" data-text="N3T_BRKR">N3T_BRKR</h1>
+            <p class="text-xl mb-4 terminal-text">MLflow Deployment System</p>
+            <div class="w-24 h-1 bg-gradient-to-r from-pink-500 to-blue-500 mx-auto my-6"></div>
+        </header>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+            <!-- Image Column -->
+            <div class="flex justify-center items-center">
+                <div class="relative">
+                    <div class="absolute inset-0 bg-gradient-to-br from-pink-500 to-purple-800 opacity-30 rounded-lg"></div>
+                    <img src="/api/placeholder/500/500" alt="Cyberpunk Character" class="w-full max-w-md relative z-10 rounded-lg">
+                    <div class="absolute top-0 left-0 w-full h-full cyber-border rounded-lg"></div>
+                </div>
+            </div>
+            
+            <!-- Text Column -->
+            <div class="cyber-border p-6 bg-black bg-opacity-60">
+                <h2 class="orbitron text-3xl font-bold neon-pink mb-4">// SYSTEM_ACCESS_POINT</h2>
+                <p class="mb-4">Neural transmission intercepted. Commencing biosignal authentication sequence for unauthorized Model Layer Flow infiltration...</p>
+                <p class="mb-4">You have breached the quantized deployment protocol K3s-NEXUS. This autonomous system architecture operates beyond standard containerization parameters, utilizing cryptographic mesh networks to distribute model artifacts across decentralized computational nodes.</p>
+                <p class="mb-4">Warning: Unregistered neural patterns detected. Proceed with caution. System defense mechanisms are active and will respond to unauthorized manipulation of deployment vectors.</p>
+                <p class="neon-blue mb-6">[STATUS: AWAITING AUTHENTICATION]</p>
+                
+                <div class="flex flex-col space-y-4 mt-8">
+                    <button class="cyber-button py-3 px-6">INITIALIZE DEPLOYMENT</button>
+                    <button class="cyber-button py-3 px-6">ACCESS DOCUMENTATION</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="angled-section p-8 mb-16">
+            <h2 class="orbitron text-3xl font-bold neon-text mb-6">// SYSTEM_CAPABILITIES</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="cyber-border p-4 bg-black bg-opacity-80">
+                    <h3 class="orbitron text-xl font-bold mb-2">HYPERSCALE DEPLOYMENT</h3>
+                    <p>Quantum-entangled container orchestration with auto-scaling neural architecture search algorithms. Deploy model artifacts across distributed compute clusters with zero-latency synchronization.</p>
+                </div>
+                <div class="cyber-border p-4 bg-black bg-opacity-80">
+                    <h3 class="orbitron text-xl font-bold mb-2">CRYPTOGRAPHIC SECURITY</h3>
+                    <p>Multi-layered encryption protocols utilizing post-quantum resistant algorithms. Neural model weights secured via homomorphic encryption enabling inference on encrypted data without decryption.</p>
+                </div>
+                <div class="cyber-border p-4 bg-black bg-opacity-80">
+                    <h3 class="orbitron text-xl font-bold mb-2">REALITY AUGMENTATION</h3>
+                    <p>Neuro-linguistic interfaces for direct consciousness-to-model interaction. Deploy artificial consciousness modules with self-optimizing feedback loops and reality distortion capabilities.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mb-16">
+            <h2 class="orbitron text-3xl font-bold neon-blue mb-6">// SYSTEM_ARCHITECTURE</h2>
+            <div class="cyber-border p-6 bg-black bg-opacity-60">
+                <pre class="text-sm md:text-base overflow-x-auto">
+   +----------------------------+
+   |     NEURAL_INTERFACE       |
+   +----------------------------+
+              |
+              v
+   +----------------------------+
+   |   BIOSIGNAL_AUTHENTICATOR  |
+   +----------------------------+
+              |
+              v
+   +----------------------------+
+   |    CRYPTOGRAPHIC_NEXUS     |---> [POSTGRES_CORE]
+   +----------------------------+
+        |           |
+        v           v
++-------------+  +----------------+
+| MODEL_VAULT |  | DEPLOY_VECTORS |
++-------------+  +----------------+
+        |           |
+        v           v
+   +----------------------------+
+   |  CONSCIOUSNESS_PROJECTION  |
+   +----------------------------+
+              |
+              v
+   +----------------------------+
+   |    REALITY_DISTORTION      |
+   +----------------------------+
+                </pre>
+            </div>
+        </div>
+        
+        <div class="angled-bottom p-8 mb-8">
+            <h2 class="orbitron text-3xl font-bold neon-text mb-6">// ACCESS_PROTOCOLS</h2>
+            <div class="cyber-border p-6 bg-black bg-opacity-80">
+                <p class="terminal-text mb-4">INITIALIZING CONNECTION...</p>
+                <p class="mb-2">> <span class="neon-pink">kubectl apply -f consciousness-projection.yaml</span></p>
+                <p class="mb-2">> <span class="neon-pink">kubectl apply -f neural-interface.yaml</span></p>
+                <p class="mb-2">> <span class="neon-pink">kubectl port-forward svc/mlflow-interface 5000:5000</span></p>
+                <p class="mb-4">> <span class="neon-blue">CONNECTION ESTABLISHED</span></p>
+                <p class="mb-2">SYSTEM STATUS: <span class="neon-green">ONLINE</span></p>
+                <p class="mb-2">BREACH PROTOCOL: <span class="neon-green">SUCCESSFUL</span></p>
+                <p class="mb-2">ACCESS POINT: <span class="neon-green">http://localhost:5000</span></p>
+            </div>
+        </div>
+        
+        <footer class="text-center mt-16 mb-8">
+            <p class="orbitron text-sm neon-text">// N3T_BRKR DEPLOYMENT SYSTEM v2.5.XXV //</p>
+            <p class="text-xs mt-2 opacity-70">QUANTUM ENTANGLEMENT PROTOCOLS ACTIVE - DISCONNECT NEURAL INTERFACE BEFORE LOGGING OUT</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Matrix animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const matrixContainer = document.querySelector('.matrix-animation');
+            const characters = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+            const columns = Math.floor(window.innerWidth / 20);
+            
+            for (let i = 0; i < columns; i++) {
+                const duration = Math.random() * 5 + 5; // 5-10s duration
+                const delay = Math.random() * 5; // 0-5s delay
+                const char = document.createElement('div');
+                char.className = 'matrix-char';
+                char.style.left = `${i * 20 + Math.random() * 10}px`;
+                char.style.animationDuration = `${duration}s`;
+                char.style.animationDelay = `${delay}s`;
+                char.textContent = characters[Math.floor(Math.random() * characters.length)];
+                matrixContainer.appendChild(char);
+            }
+            
+            // Periodically change characters
+            setInterval(() => {
+                const chars = document.querySelectorAll('.matrix-char');
+                chars.forEach(char => {
+                    if (Math.random() > 0.9) {
+                        char.textContent = characters[Math.floor(Math.random() * characters.length)];
+                    }
+                });
+            }, 500);
+        });
+    </script>
+</body>
+</html>
