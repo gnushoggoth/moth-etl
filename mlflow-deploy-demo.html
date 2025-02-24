@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLflow Deploy // Netrunner Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0a0a1a;
+            color: #00ff9c;
+            font-family: 'Roboto Mono', monospace;
+        }
+        .console-text {
+            text-shadow: 0 0 5px #00ff9c, 0 0 10px #00ff9c;
+        }
+        .code-block {
+            background-color: #1a1a2a;
+            border: 1px solid #00ff9c;
+            box-shadow: 0 0 10px rgba(0,255,156,0.3);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-green-400">
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-green-300 mb-4 font-orbitron console-text">MLflow Deploy // Netrunner Protocol</h1>
+            <p class="text-xl text-green-500">Containerization Breach: K3s Infiltration System</p>
+        </header>
+
+        <div class="max-w-4xl mx-auto bg-gray-800 shadow-2xl rounded-lg overflow-hidden border border-green-600">
+            <div class="p-6">
+                <section class="mb-8">
+                    <h2 class="text-2xl font-semibold text-green-300 mb-4 console-text">[LAYER 0] Dockerfile Injection</h2>
+                    <pre class="code-block"><code class="language-dockerfile text-green-400">FROM python:3.9-slim // base genome loaded
+
+# SYSTEM PACKAGES // critical dependencies
+RUN pip install mlflow psycopg2-binary \
+    && echo "[+] Packages integrated successfully"
+
+# WORKSPACE VECTOR
+WORKDIR /app
+
+# NETWORK BREACH PORT
+EXPOSE 5000
+
+# DEPLOYMENT PROTOCOL
+CMD ["mlflow", "server", \
+     "--backend-store-uri", "${DATABASE_URI}", \
+     "--default-artifact-root", "${ARTIFACT_ROOT}", \
+     "--host", "0.0.0.0", \
+     "--port", "5000"]</code></pre>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-semibold text-green-300 mb-4 console-text">[LAYER 1] Image Compilation</h2>
+                    <pre class="code-block"><code class="language-bash text-green-400"># INITIALIZING IMAGE CONSTRUCT
+docker build -t mlflow-app:cyberdeck .
+
+# REGISTRY UPLOAD SEQUENCE
+docker tag mlflow-app:cyberdeck net-registry/mlflow-app:latest
+docker push net-registry/mlflow-app:latest
+
+# [✓] PAYLOAD ENCRYPTED
+# [✓] REGISTRY HANDSHAKE COMPLETE</code></pre>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-semibold text-green-300 mb-4 console-text">[LAYER 2] Postgres Data Nexus</h2>
+                    <pre class="code-block"><code class="language-yaml text-green-400">apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-nexus  # Data storage matrix
+spec:
+  replicas: 1  // singleton data node
+  selector:
+    matchLabels:
+      node: postgres-core
+  template:
+    spec:
+      containers:
+      - name: postgres-daemon
+        image: postgres:14  // legacy data protocol
+        env:
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-encryption-key
+              key: cipher-access</code></pre>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-semibold text-green-300 mb-4 console-text">[LAYER 3] MLflow Deployment Matrix</h2>
+                    <pre class="code-block"><code class="language-yaml text-green-400">apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlflow-mainframe
+spec:
+  replicas: 1  // single point of control
+  selector:
+    matchLabels:
+      system: mlflow-core
+  template:
+    spec:
+      containers:
+      - name: mlflow-sentinel
+        image: net-registry/mlflow-app:latest
+        env:
+        - name: DATABASE_VECTOR
+          valueFrom:
+            secretKeyRef:
+              name: db-connection-matrix
+              key: uri-cipher
+        - name: ARTIFACT_REPOSITORY
+          value: "file:///mlflow/data-vault"</code></pre>
+                </section>
+
+                <section class="mb-8">
+                    <h2 class="text-2xl font-semibold text-green-300 mb-4 console-text">[FINAL BREACH] Deployment Confirmation</h2>
+                    <div class="bg-gray-900 border-2 border-green-600 p-4">
+                        <p class="text-green-400 font-mono">
+                            > EXECUTING DEPLOYMENT PROTOCOLS
+                            <br />
+                            >> kubectl apply -f postgres-nexus.yaml
+                            <br />
+                            >> kubectl apply -f mlflow-mainframe.yaml
+                            <br />
+                            <br />
+                            [✓] SYSTEMS ONLINE
+                            <br />
+                            [✓] ACCESS POINT: http://&lt;k3s-node-ip&gt;:30001
+                            <br />
+                            [!] BREACH SUCCESSFUL
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <footer class="text-center mt-8 text-green-600">
+            <p>// NETRUNNER DEPLOYMENT SYSTEM v2.0.24 //</p>
+        </footer>
+    </div>
+
+    <script>
+        // Highlight code blocks with cyber-enhancement
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightBlock(block);
+            });
+        });
+    </script>
+</body>
+</html>
