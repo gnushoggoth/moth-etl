@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <!-- Background gradient representing the blend of their philosophies -->
+  <defs>
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a472a" />
+      <stop offset="100%" stop-color="#003366" />
+    </linearGradient>
+    <radialGradient id="glowGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" stop-color="#66ff99" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#66ff99" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="sunGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#ffcc00" />
+    </radialGradient>
+    <clipPath id="deidreClip">
+      <path d="M280,200 Q300,180 320,200 Q340,220 360,200 Q380,180 400,200 L400,400 L280,400 Z" />
+    </clipPath>
+    <clipPath id="zakharovClip">
+      <path d="M400,200 Q420,180 440,200 Q460,220 480,200 Q500,180 520,200 L520,400 L400,400 Z" />
+    </clipPath>
+  </defs>
+
+  <!-- Planet background -->
+  <rect width="800" height="600" fill="url(#skyGradient)" />
+  
+  <!-- Planet's aurora -->
+  <path d="M0,100 Q200,150 400,100 Q600,50 800,100" fill="none" stroke="#66ffcc" stroke-width="10" stroke-opacity="0.3" />
+  <path d="M0,120 Q200,180 400,120 Q600,70 800,120" fill="none" stroke="#66ffcc" stroke-width="8" stroke-opacity="0.2" />
+  <path d="M0,140 Q200,200 400,140 Q600,90 800,140" fill="none" stroke="#66ffcc" stroke-width="6" stroke-opacity="0.1" />
+
+  <!-- Two moons -->
+  <circle cx="650" cy="100" r="30" fill="#cccccc" />
+  <circle cx="600" cy="80" r="20" fill="#dddddd" />
+  
+  <!-- Glow representing Planet consciousness -->
+  <circle cx="400" cy="500" r="300" fill="url(#glowGradient)" />
+
+  <!-- Deirdre silhouette -->
+  <g clip-path="url(#deidreClip)">
+    <!-- Deirdre background - Gaian green -->
+    <rect x="280" y="200" width="120" height="200" fill="#1a472a" />
+    
+    <!-- Gaian symbols - plants and xenofungus -->
+    <path d="M300,350 Q310,320 320,350 Q330,320 340,350" fill="none" stroke="#66ff99" stroke-width="3" />
+    <path d="M330,370 Q340,340 350,370 Q360,340 370,370" fill="none" stroke="#66ff99" stroke-width="3" />
+    <circle cx="310" cy="330" r="5" fill="#66ff99" />
+    <circle cx="350" cy="350" r="5" fill="#66ff99" />
+    <circle cx="325" cy="360" r="5" fill="#66ff99" />
+    
+    <!-- Deirdre's flowing hair suggestion -->
+    <path d="M320,220 Q330,210 340,220 Q350,230 360,220" fill="none" stroke="#cc6633" stroke-width="4" />
+    <path d="M310,230 Q320,220 330,230 Q340,240 350,230" fill="none" stroke="#cc6633" stroke-width="4" />
+  </g>
+
+  <!-- Zakharov silhouette -->
+  <g clip-path="url(#zakharovClip)">
+    <!-- Zakharov background - University blue -->
+    <rect x="400" y="200" width="120" height="200" fill="#003366" />
+    
+    <!-- University symbols - data patterns and scientific notation -->
+    <line x1="420" y1="320" x2="500" y2="320" stroke="#66ccff" stroke-width="1" />
+    <line x1="420" y1="330" x2="500" y2="330" stroke="#66ccff" stroke-width="1" />
+    <line x1="420" y1="340" x2="500" y2="340" stroke="#66ccff" stroke-width="1" />
+    <line x1="420" y1="350" x2="500" y2="350" stroke="#66ccff" stroke-width="1" />
+    <line x1="420" y1="360" x2="500" y2="360" stroke="#66ccff" stroke-width="1" />
+    <circle cx="450" cy="330" r="10" fill="none" stroke="#66ccff" stroke-width="1" />
+    <circle cx="470" cy="350" r="10" fill="none" stroke="#66ccff" stroke-width="1" />
+    
+    <!-- Zakharov's stern features suggestion -->
+    <line x1="440" y1="230" x2="480" y2="230" stroke="#cccccc" stroke-width="2" />
+    <line x1="450" y1="220" x2="450" y2="240" stroke="#cccccc" stroke-width="1" />
+    <line x1="470" y1="220" x2="470" y2="240" stroke="#cccccc" stroke-width="1" />
+  </g>
+
+  <!-- DNA/fungal network connecting them -->
+  <path d="M340,400 Q370,420 400,400 Q430,380 460,400" fill="none" stroke="#66ff99" stroke-width="3" />
+  <path d="M340,410 Q370,430 400,410 Q430,390 460,410" fill="none" stroke="#66ccff" stroke-width="3" />
+  <path d="M340,420 Q370,440 400,420 Q430,400 460,420" fill="none" stroke="#66ff99" stroke-width="3" />
+  <path d="M340,430 Q370,450 400,430 Q430,410 460,430" fill="none" stroke="#66ccff" stroke-width="3" />
+  
+  <!-- Faction symbols -->
+  <circle cx="320" cy="280" r="15" fill="none" stroke="#66ff99" stroke-width="2" />
+  <path d="M310,280 L330,280 M320,270 L320,290" stroke="#66ff99" stroke-width="2" />
+  
+  <circle cx="480" cy="280" r="15" fill="none" stroke="#66ccff" stroke-width="2" />
+  <path d="M470,270 L490,290 M470,290 L490,270" stroke="#66ccff" stroke-width="2" />
+
+  <!-- Mind and Garden title -->
+  <text x="400" y="170" font-family="Arial" font-size="24" text-anchor="middle" fill="#ffffff">THE MIND AND THE GARDEN</text>
+  
+  <!-- Names -->
+  <text x="330" y="450" font-family="Arial" font-size="16" text-anchor="middle" fill="#66ff99">LADY DEIRDRE SKYE</text>
+  <text x="470" y="450" font-family="Arial" font-size="16" text-anchor="middle" fill="#66ccff">ACADEMICIAN PROKHOR ZAKHAROV</text>
+  
+  <!-- Shared sun - their unity -->
+  <circle cx="400" cy="500" r="40" fill="url(#sunGradient)" opacity="0.8" />
+  
+  <!-- Planet quote -->
+  <text x="400" y="550" font-family="Arial" font-size="12" font-style="italic" text-anchor="middle" fill="#ffffff">"And Planet, in its ancient and evolving consciousness, took note of this union and found it... promising."</text>
+</svg>
