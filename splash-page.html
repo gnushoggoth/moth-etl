@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Tentacles</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+            background-color: #000;
+            color: #fff;
+        }
+        
+        .container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background: linear-gradient(45deg, #1a0033, #000, #330033);
+            animation: backgroundPulse 15s infinite alternate;
+        }
+        
+        .rays {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.5;
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .ray {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200%;
+            height: 5px;
+            transform-origin: 0 0;
+        }
+        
+        .ray:nth-child(1) { transform: rotate(0deg); background: linear-gradient(90deg, rgba(255,105,180,0), rgba(255,105,180,1)); }
+        .ray:nth-child(2) { transform: rotate(30deg); background: linear-gradient(90deg, rgba(255,191,0,0), rgba(255,191,0,1)); }
+        .ray:nth-child(3) { transform: rotate(60deg); background: linear-gradient(90deg, rgba(50,205,50,0), rgba(50,205,50,1)); }
+        .ray:nth-child(4) { transform: rotate(90deg); background: linear-gradient(90deg, rgba(65,105,225,0), rgba(65,105,225,1)); }
+        .ray:nth-child(5) { transform: rotate(120deg); background: linear-gradient(90deg, rgba(138,43,226,0), rgba(138,43,226,1)); }
+        .ray:nth-child(6) { transform: rotate(150deg); background: linear-gradient(90deg, rgba(255,0,0,0), rgba(255,0,0,1)); }
+        .ray:nth-child(7) { transform: rotate(180deg); background: linear-gradient(90deg, rgba(255,105,180,0), rgba(255,105,180,1)); }
+        .ray:nth-child(8) { transform: rotate(210deg); background: linear-gradient(90deg, rgba(255,191,0,0), rgba(255,191,0,1)); }
+        .ray:nth-child(9) { transform: rotate(240deg); background: linear-gradient(90deg, rgba(50,205,50,0), rgba(50,205,50,1)); }
+        .ray:nth-child(10) { transform: rotate(270deg); background: linear-gradient(90deg, rgba(65,105,225,0), rgba(65,105,225,1)); }
+        .ray:nth-child(11) { transform: rotate(300deg); background: linear-gradient(90deg, rgba(138,43,226,0), rgba(138,43,226,1)); }
+        .ray:nth-child(12) { transform: rotate(330deg); background: linear-gradient(90deg, rgba(255,0,0,0), rgba(255,0,0,1)); }
+        
+        .title {
+            font-size: 4em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 1em;
+            background: linear-gradient(to right, #ff6ad5, #f29bab, #c2e9fb, #a1c4fd, #cbc0d3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: textPulse 5s infinite;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            padding: 0 20px;
+        }
+        
+        @keyframes textPulse {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+        
+        @keyframes backgroundPulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 0.9; }
+            100% { opacity: 0.7; }
+        }
+        
+        .subtitle {
+            font-size: 1.5em;
+            text-align: center;
+            margin-bottom: 2em;
+            color: #f7f7f7;
+            max-width: 600px;
+            line-height: 1.5;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+            padding: 0 20px;
+        }
+        
+        .enter-btn {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            background: linear-gradient(45deg, #ff00cc, #333399);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 15px rgba(255, 0, 204, 0.5);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .enter-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(255, 0, 204, 0.8);
+        }
+        
+        .enter-btn:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+        
+        .enter-btn:hover:after {
+            left: 100%;
+        }
+        
+        .octopus-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin-bottom: 2em;
+        }
+        
+        .skull {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 150px;
+            background-color: #f2f2f2;
+            border-radius: 60px 60px 0 0;
+            z-index: 3;
+        }
+        
+        .eye-socket {
+            position: absolute;
+            width: 30px;
+            height: 40px;
+            background-color: #000;
+            border-radius: 50%;
+            z-index: 4;
+        }
+        
+        .eye-socket.left {
+            top: 50px;
+            left: 25px;
+        }
+        
+        .eye-socket.right {
+            top: 50px;
+            right: 25px;
+        }
+        
+        .nose {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 30px;
+            background-color: #000;
+            border-radius: 0 0 10px 10px;
+            z-index: 4;
+        }
+        
+        .tentacle {
+            position: absolute;
+            bottom: 0;
+            width: 20px;
+            height: 150px;
+            background-color: #ff66cc;
+            border-radius: 10px;
+            z-index: 2;
+            transform-origin: top center;
+            animation: tentacleWave 8s infinite ease-in-out;
+        }
+        
+        @keyframes tentacleWave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(15deg); }
+            75% { transform: rotate(-15deg); }
+        }
+        
+        .tentacle:nth-child(1) {
+            left: 30px;
+            height: 160px;
+            animation-delay: -1s;
+            background: linear-gradient(to bottom, #ff66cc, #ff00cc);
+        }
+        
+        .tentacle:nth-child(2) {
+            left: 60px;
+            height: 180px;
+            animation-delay: -2s;
+            background: linear-gradient(to bottom, #ff66cc, #ff33cc);
+        }
+        
+        .tentacle:nth-child(3) {
+            left: 90px;
+            height: 200px;
+            animation-delay: -3s;
+            background: linear-gradient(to bottom, #ff66cc, #ff66cc);
+        }
+        
+        .tentacle:nth-child(4) {
+            left: 120px;
+            height: 190px;
+            animation-delay: -4s;
+            background: linear-gradient(to bottom, #ff66cc, #ff99cc);
+        }
+        
+        .tentacle:nth-child(5) {
+            left: 150px;
+            height: 170px;
+            animation-delay: -5s;
+            background: linear-gradient(to bottom, #ff66cc, #ffcccc);
+        }
+        
+        .tentacle:nth-child(6) {
+            left: 180px;
+            height: 160px;
+            animation-delay: -6s;
+            background: linear-gradient(to bottom, #ff66cc, #ff99cc);
+        }
+        
+        .tentacle:nth-child(7) {
+            left: 210px;
+            height: 180px;
+            animation-delay: -7s;
+            background: linear-gradient(to bottom, #ff66cc, #ff66cc);
+        }
+        
+        .tentacle:nth-child(8) {
+            left: 240px;
+            height: 150px;
+            animation-delay: -8s;
+            background: linear-gradient(to bottom, #ff66cc, #ff33cc);
+        }
+        
+        .sucker {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .rainbow {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 100px;
+            border-radius: 100px 100px 0 0;
+            background: linear-gradient(
+                to bottom,
+                #ff0000,
+                #ff7f00,
+                #ffff00,
+                #00ff00,
+                #0000ff,
+                #4b0082,
+                #8b00ff
+            );
+            opacity: 0.6;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    
+    <div class="rays">
+        <div class="ray"></div>
+        <div class="ray"></div>
+        <div class="ray"></div>
+        <div class="ray"></div>
+        <div class="ray"></div>
+        <div class="ray"></div>
+        <div class="ray"></div>
+        <div class="ray"></div>
+        <div class="ray"></div>
+        <div class="ray"></div>
+        <div class="ray"></div>
+        <div class="ray"></div>
+    </div>
+    
+    <div class="container">
+        <div class="rainbow"></div>
+        
+        <div class="octopus-container">
+            <div class="skull">
+                <div class="eye-socket left"></div>
+                <div class="eye-socket right"></div>
+                <div class="nose"></div>
+            </div>
+            
+            <div class="tentacle">
+                <div class="sucker" style="top: 30px;"></div>
+                <div class="sucker" style="top: 60px;"></div>
+                <div class="sucker" style="top: 90px;"></div>
+                <div class="sucker" style="top: 120px;"></div>
+            </div>
+            <div class="tentacle">
+                <div class="sucker" style="top: 40px;"></div>
+                <div class="sucker" style="top: 80px;"></div>
+                <div class="sucker" style="top: 120px;"></div>
+                <div class="sucker" style="top: 160px;"></div>
+            </div>
+            <div class="tentacle">
+                <div class="sucker" style="top: 50px;"></div>
+                <div class="sucker" style="top: 100px;"></div>
+                <div class="sucker" style="top: 150px;"></div>
+                <div class="sucker" style="top: 180px;"></div>
+            </div>
+            <div class="tentacle">
+                <div class="sucker" style="top: 30px;"></div>
+                <div class="sucker" style="top: 70px;"></div>
+                <div class="sucker" style="top: 110px;"></div>
+                <div class="sucker" style="top: 150px;"></div>
+            </div>
+            <div class="tentacle">
+                <div class="sucker" style="top: 40px;"></div>
+                <div class="sucker" style="top: 80px;"></div>
+                <div class="sucker" style="top: 120px;"></div>
+                <div class="sucker" style="top: 140px;"></div>
+            </div>
+            <div class="tentacle">
+                <div class="sucker" style="top: 30px;"></div>
+                <div class="sucker" style="top: 60px;"></div>
+                <div class="sucker" style="top: 90px;"></div>
+                <div class="sucker" style="top: 120px;"></div>
+            </div>
+            <div class="tentacle">
+                <div class="sucker" style="top: 40px;"></div>
+                <div class="sucker" style="top: 80px;"></div>
+                <div class="sucker" style="top: 120px;"></div>
+                <div class="sucker" style="top: 160px;"></div>
+            </div>
+            <div class="tentacle">
+                <div class="sucker" style="top: 30px;"></div>
+                <div class="sucker" style="top: 60px;"></div>
+                <div class="sucker" style="top: 90px;"></div>
+                <div class="sucker" style="top: 120px;"></div>
+            </div>
+        </div>
+        
+        <h1 class="title">COSMIC TENTACLES</h1>
+        <p class="subtitle">Enter a psychedelic realm where skull and tentacle merge into cosmic consciousness.</p>
+        <button class="enter-btn">Enter</button>
+    </div>
+</body>
+</html>
