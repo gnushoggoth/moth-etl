@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duality: Technology & Nature Visualization</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <canvas id="dualityCanvas"></canvas>
+        
+        <div class="controls">
+            <div class="info-panel">
+                <h1>Duality</h1>
+                <p>An exploration of the boundary between technology and nature</p>
+                <div class="parameters">
+                    <div class="parameter">
+                        <label for="complexity">Complexity</label>
+                        <input type="range" id="complexity" min="1" max="10" value="5">
+                    </div>
+                    <div class="parameter">
+                        <label for="organicRatio">Organic/Mechanical Ratio</label>
+                        <input type="range" id="organicRatio" min="0" max="100" value="50">
+                    </div>
+                    <div class="parameter">
+                        <label for="animation">Animation Speed</label>
+                        <input type="range" id="animation" min="0" max="100" value="30">
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button id="generate">Generate New</button>
+                    <button id="save">Save as Image</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/particles.js"></script>
+    <script src="js/duality.js"></script>
+    <script src="js/renderer.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
