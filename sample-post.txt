@@ -1,0 +1,17 @@
+---
+title: My First Hakyll Blog Post
+author: Your Name
+---
+
+# Welcome to My Hakyll Blog
+
+Hakyll is an amazing static site generator that leverages the power of Haskell. With Hakyll, you can:
+
+- Write content in Markdown
+- Generate static HTML sites
+- Use powerful Haskell transformations
+- Create complex build pipelines for your content
+
+## Why Hakyll?
+
+Hakyll provides a declarative way to build websites, allowing you to focus on content while the build system handles the complexity of site generation.

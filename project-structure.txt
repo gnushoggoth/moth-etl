@@ -1,0 +1,21 @@
+my-hakyll-site/
+│
+├── site.hs                  # Main Hakyll configuration file
+├── stack.yaml               # Stack build configuration
+├── my-site.cabal            # Cabal project file
+│
+├── index.md                 # Main index page
+│
+├── posts/                   # Markdown blog posts
+│   ├── 2025-01-15-first-post.md
+│   └── 2025-02-01-second-post.md
+│
+├── templates/               # HTML templates
+│   ├── default.html
+│   └── post.html
+│
+├── css/                     # Stylesheets
+│   └── style.css
+│
+└── images/                  # Static images
+    └── logo.png

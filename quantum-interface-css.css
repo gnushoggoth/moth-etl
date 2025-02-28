@@ -1,0 +1,72 @@
+:root {
+    --void-primary: #0a0a0e;
+    --quantum-accent: #00ffff;
+    --text-primary: #00ff41;
+    --line-complexity: rgba(0,255,65,0.2);
+}
+
+.quantum-body {
+    background-color: var(--void-primary);
+    color: var(--text-primary);
+    font-family: 'Space Mono', monospace;
+    overflow: hidden;
+    margin: 0;
+    perspective: 1000px;
+}
+
+#complexity-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.interface-overlay {
+    position: relative;
+    z-index: 10;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    height: 100vh;
+    backdrop-filter: blur(5px);
+}
+
+.theoretical-readout {
+    background: rgba(0,0,0,0.7);
+    border-right: 2px solid var(--quantum-accent);
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.mono-readout {
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: var(--text-primary);
+    white-space: pre-wrap;
+}
+
+.control-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+button {
+    background-color: var(--quantum-accent);
+    color: var(--void-primary);
+    border: none;
+    padding: 0.5rem 1rem;
+    font-family: 'Space Mono', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    transform: skew(-10deg);
+    box-shadow: 0 0 10px var(--quantum-accent);
+}

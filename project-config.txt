@@ -1,0 +1,22 @@
+{
+    "name": "ccru-complexity-interface",
+    "version": "0.0.1",
+    "description": "Computational interface for exploring systemic complexity",
+    "main": "index.html",
+    "scripts": {
+        "start": "npx http-server .",
+        "deploy": "netlify deploy --prod"
+    },
+    "keywords": [
+        "complexity",
+        "cybernetic",
+        "quantum",
+        "ccru"
+    ],
+    "author": "CCRU Research Division",
+    "license": "MIT",
+    "dependencies": {
+        "http-server": "^14.1.1",
+        "netlify-cli": "^12.0.11"
+    }
+}

@@ -1,0 +1,40 @@
+my-hakyll-site/
+│
+├── src/
+│   ├── haskell/
+│   │   └── site.hs                  # Main Hakyll configuration
+│   │
+│   ├── typescript/                  # TypeScript source files
+│   │   ├── main.ts                  # Entry point for client-side scripts
+│   │   ├── modules/
+│   │   │   ├── narrative.ts         # Complex narrative interaction logic
+│   │   │   └── quantum-parser.ts    # Advanced text processing
+│   │
+│   ├── markdown/                    # Markdown content
+│   │   ├── posts/
+│   │   │   ├── 2025-01-15-reality-breach.md
+│   │   │   └── 2025-02-01-narrative-theory.md
+│   │   └── pages/
+│   │       ├── about.md
+│   │       └── contact.md
+│   │
+│   └── html/                        # HTML5 templates
+│       ├── templates/
+│       │   ├── default.html
+│       │   ├── post.html
+│       │   └── page.html
+│
+├── static/                          # Static assets
+│   ├── css/
+│   │   └── quantum-styles.css
+│   └── images/
+│       └── moth-sigil.svg
+│
+├── dist/                            # Compiled output
+│   ├── js/
+│   └── html/
+│
+├── package.json                     # Node.js project configuration
+├── tsconfig.json                    # TypeScript configuration
+├── stack.yaml                       # Haskell Stack configuration
+└── README.md                        # Project documentation

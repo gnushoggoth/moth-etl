@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" class="quantum-narrative">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Narrative Entanglement</title>
+    
+    <!-- Semantic Meta Tags -->
+    <meta name="description" content="An exploration of narrative quantum mechanics and recursive storytelling">
+    <meta name="keywords" content="quantum narrative, storytelling, recursive fiction, metaphysical exploration">
+    <meta name="author" content="Cosmic Horror Society">
+    
+    <!-- Preload Critical Assets -->
+    <link rel="preload" href="/css/quantum-styles.css" as="style">
+    <link rel="preload" href="/js/narrative-processor.js" as="script">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/css/quantum-styles.css">
+    
+    <!-- Favicon and App Icons -->
+    <link rel="icon" type="image/svg+xml" href="/images/moth-sigil.svg">
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Quantum Narrative Entanglement">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://quantum-narrative.org">
+    <meta property="og:image" content="/images/og-image.jpg">
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'">
+</head>
+<body class="narrative-container">
+    <!-- Quantum Narrative Header -->
+    <header class="quantum-header">
+        <div class="header-overlay"></div>
+        <nav class="narrative-nav">
+            <ul>
+                <li><a href="#" data-narrative-target="home">Home</a></li>
+                <li><a href="#" data-narrative-target="recursion">Recursion</a></li>
+                <li><a href="#" data-narrative-target="entities">Entities</a></li>
+            </ul>
+        </nav>
+        <h1 class="narrative-title">
+            <span class="glitch" data-text="Quantum Narrative">Quantum Narrative</span>
+        </h1>
+    </header>
+
+    <!-- Main Narrative Content -->
+    <main id="narrative-content" class="quantum-content">
+        <!-- Dynamic content will be loaded here -->
+        <section id="narrative-loader" class="loading-state">
+            <div class="loading-spinner">
+                <svg viewBox="0 0 100 100" class="spinner">
+                    <circle cx="50" cy="50" r="40" class="path"></circle>
+                </svg>
+                <p class="loading-text">Entangling narrative states...</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Quantum Entities Visualization -->
+    <section id="entity-visualization" class="quantum-entities" aria-label="Narrative Entity Interactions">
+        <svg id="entity-graph" viewBox="0 0 800 600">
+            <!-- Interactive entity relationship graph will be dynamically generated -->
+        </svg>
+    </section>
+
+    <!-- Narrative Delta Log -->
+    <aside id="delta-log" class="narrative-deltas">
+        <h2>Narrative Mutation Log</h2>
+        <ul id="delta-list" class="delta-entries">
+            <!-- Delta entries will be dynamically inserted -->
+        </ul>
+    </aside>
+
+    <!-- Footer with Recursive Metadata -->
+    <footer class="narrative-footer">
+        <div class="footer-content">
+            <p class="recursion-info">
+                <span id="recursion-count">Recursion: 0</span> 
+                <span id="narrative-timestamp">Generated: </span>
+            </p>
+            <small class="copyright">
+                © 2025 Quantum Narrative Society | 
+                <a href="#" id="reset-narrative">Reset Narrative State</a>
+            </small>
+        </div>
+    </footer>
+
+    <!-- Quantum Narrative Scripts -->
+    <script type="module">
+        import { NarrativeProcessor } from '/js/narrative-processor.js';
+        import { EntityManager } from '/js/entity-manager.js';
+        import { DeltaLogger } from '/js/delta-logger.js';
+
+        // Initialize core narrative systems
+        const narrativeProcessor = new NarrativeProcessor();
+        const entityManager = new EntityManager();
+        const deltaLogger = new DeltaLogger();
+
+        // Bootstrap narrative interaction
+        document.addEventListener('DOMContentLoaded', () => {
+            // Attach narrative processing to key interactions
+            const navigationLinks = document.querySelectorAll('[data-narrative-target]');
+            navigationLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const target = event.target.dataset.narrativeTarget;
+                    narrativeProcessor.processNavigation(target);
+                });
+            });
+
+            // Reset narrative state
+            document.getElementById('reset-narrative').addEventListener('click', () => {
+                narrativeProcessor.resetState();
+                entityManager.reset();
+                deltaLogger.clear();
+            });
+        });
+    </script>
+</body>
+</html>

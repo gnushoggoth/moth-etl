@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mathematical Foundations of Neural Network Visualization</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;600&family=Fira+Math&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0a0a0e;
+            --text-color: #c8c8d0;
+            --accent-color: #ff6188;
+            --secondary-color: #9577ff;
+            --code-bg: #1f1f2e;
+        }
+
+        body {
+            font-family: 'Fira Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1, h2, h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .math-block {
+            background-color: var(--code-bg);
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .math-equation {
+            display: block;
+            text-align: center;
+            color: var(--secondary-color);
+            font-family: 'Fira Math', serif;
+            font-size: 1.2rem;
+            margin: 1rem 0;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--text-color);
+            padding: 1rem;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        blockquote {
+            border-left: 3px solid var(--accent-color);
+            padding-left: 1rem;
+            font-style: italic;
+            color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Mathematical Foundations of Neural Network Visualization</h1>
+    </header>
+
+    <main>
+        <section>
+            <h2>🧮 Mathematical Poetry: Translating Computation into Art</h2>
+            
+            <p>At the heart of our neural network visualization lies a beautiful intersection of mathematics, art, and computational thinking. This guide will take you on a journey through the mathematical concepts that transform abstract computational principles into a mesmerizing visual experience.</p>
+            
+            <h3>Core Mathematical Transformations</h3>
+            
+            <h4>1. Trigonometric Path Generation</h4>
+            
+            <p>The magic begins with trigonometric functions, which allow us to create organic, seemingly random yet precisely controlled paths.</p>
+            
+            <div class="math-block">
+                <div class="math-equation">
+                    x = \text{center}_x + r \cdot \cos(\theta)
+                </div>
+                <div class="math-equation">
+                    y = \text{center}_y + r \cdot \sin(\theta)
+                </div>
+            </div>
+            
+            <p>Where:</p>
+            <ul>
+                <li><code>center_x, center_y</code> define the network's focal point</li>
+                <li><code>r</code> represents the radius (network layer spread)</li>
+                <li><code>θ</code> is the angle (0 to 2π)</li>
+            </ul>
+            
+            <h4>2. Quadratic Curve Interpolation</h4>
+            
+            <p>We enhance linear connections using quadratic Bézier curves:</p>
+            
+            <div class="math-block">
+                <div class="math-equation">
+                    P(t) = (1-t)^2P_0 + 2(1-t)tP_1 + t^2P_2
+                </div>
+                <div class="math-equation">
+                    \text{where } 0 \leq t \leq 1
+                </div>
+            </div>
+            
+            <p>This creates fluid, organic connections that mimic neural network complexity.</p>
+            
+            <h3>Randomness with Mathematical Constraints</h3>
+            
+            <h4>Controlled Stochasticity</h4>
+            
+            <pre><code>// Mathematical randomness generation
+const controlledRandom = (center, spread) => {
+  // Normal distribution around a center point
+  return center + spread * (Math.random() - 0.5);
+}</code></pre>
+            
+            <p>This approach ensures randomness remains aesthetically pleasing and mathematically bounded.</p>
+            
+            <h3>Layered Complexity: Mathematical Depth</h3>
+            
+            <div class="math-block">
+                <div class="math-equation">
+                    \text{Layer Radius} = \text{Base Radius} \cdot \left(1 - \frac{\text{Layer Depth}}{\text{Total Layers}}\right)
+                </div>
+            </div>
+            
+            <h3>Color Mathematics: Spectral Mapping</h3>
+            
+            <div class="math-block">
+                <div class="math-equation">
+                    \text{Color Component} = \lfloor \sin\left(\frac{\text{Iteration}}{\text{Max Iterations}} \cdot 2\pi\right) \cdot 127 + 128 \rfloor
+                </div>
+            </div>
+            
+            <blockquote>
+                "Mathematics is the language with which God has written the universe." - Galileo Galilei
+            </blockquote>
+        </section>
+    </main>
+
+    <footer>
+        <p>Created with ❤️ at the intersection of code and creativity</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$','$'], ['\\(','\\)']],
+                displayMath: [['$$','$$'], ['\\[','\\]']],
+                processEscapes: true
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+/* Quantum Narrative Mandelbrot Styles */
+:root {
+    --bg-color: #0a0a0e;
+    --text-color: #c8c8d0;
+    --accent-color: #ff6188;
+    --secondary-color: #9577ff;
+    --code-bg: #1f1f2e;
+}
+
+.mandelbrot-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'IM Fell English', serif;
+}
+
+.mandelbrot-canvas {
+    border: 2px solid var(--accent-color);
+    box-shadow: 0 0 20px rgba(255, 97, 136, 0.3);
+    margin: 2rem 0;
+    max-width: 100%;
+}
+
+.math-explanation, .math-details {
+    background-color: rgba(31, 31, 46, 0.5);
+    padding: 1.5rem;
+    border-radius: 5px;
+    margin-bottom: 1.5rem;
+}
+
+.visualization-controls {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.visualization-controls label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--secondary-color);
+}
+
+input[type="range"] {
+    width: 300px;
+    accent-color: var(--accent-color);
+}
+
+h1, h2, h3 {
+    color: var(--accent-color);
+    text-align: center;
+    font-family: 'Cinzel Decorative', cursive;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 1rem;
+}
+
+ul li::before {
+    content: "✧ ";
+    color: var(--accent-color);
+    margin-right: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .mandelbrot-container {
+        padding: 1rem;
+    }
+    
+    .visualization-controls input[type="range"] {
+        width: 100%;
+    }
+}
