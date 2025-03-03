@@ -1,0 +1,1279 @@
+    <script>
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // First, include our protocol definition in the global scope
+            // This would normally be loaded from the external file, but for demo purposes
+            // we'll define it inline to avoid the file loading error
+            
+            // Define the ButterflyProtocol globally
+            window.ButterflyProtocol = {
+                ButterflyNode: class ButterflyNode {
+                    constructor(nodeId, position, initialCharge) {
+                        this.nodeId = nodeId;
+                        this.position = position;
+                        this.charge = initialCharge || 0;
+                        this.entanglements = new Map();
+                        this.pulseHistory = [];
+                        this.scale = 1.0;
+                        this.activationThreshold = 0.35;
+                        this.phosphorescentResiduals = [];
+                    }
+                    
+                    entangleWith(targetNode, entanglementStrength = 1.0) {
+                        if (targetNode.nodeId === this.nodeId) return false;
+                        
+                        // Simplified entanglement calculation
+                        const coherence = 0.9; // Fixed value for demo
+                        
+                        this.entanglements.set(targetNode.nodeId, {
+                            node: targetNode,
+                            strength: entanglementStrength * coherence,
+                            establishedAt: Date.now(),
+                            pulseCount: 0,
+                            phaseAlignment: Math.random() * Math.PI * 2
+                        });
+                        
+                        targetNode.entanglements.set(this.nodeId, {
+                            node: this,
+                            strength: entanglementStrength * coherence,
+                            establishedAt: Date.now(),
+                            pulseCount: 0,
+                            phaseAlignment: Math.random() * Math.PI * 2
+                        });
+                        
+                        return true;
+                    }
+                    
+                    emitPulse(intensity, payload) {
+                        if (this.charge < this.activationThreshold) return 0;
+                        
+                        let successfulTransmissions = 0;
+                        const timestamp = Date.now();
+                        
+                        this.pulseHistory.push({
+                            timestamp,
+                            intensity,
+                            payload: { ...payload }
+                        });
+                        
+                        this.charge -= intensity * 0.1;
+                        
+                        for (const [nodeId, entanglement] of this.entanglements.entries()) {
+                            const targetNode = entanglement.node;
+                            
+                            if (Math.random() < 0.8) { // 80% success rate for demo
+                                targetNode.receiveTransmission(this.nodeId, intensity, payload);
+                                successfulTransmissions++;
+                                entanglement.pulseCount++;
+                            }
+                        }
+                        
+                        // Generate phosphorescent residual
+                        this.phosphorescentResiduals.push({
+                            origin: this.nodeId,
+                            timestamp,
+                            intensity: intensity * 0.3,
+                            decay: 0.05 + Math.random() * 0.05
+                        });
+                        
+                        return successfulTransmissions;
+                    }
+                    
+                    receiveTransmission(senderNodeId, intensity, payload) {
+                        // Record reception in pulse history
+                        this.pulseHistory.push({
+                            timestamp: Date.now(),
+                            sourceNodeId: senderNodeId,
+                            intensity,
+                            payload: { ...payload },
+                            isReceived: true
+                        });
+                        
+                        // Generate phosphorescent echo
+                        this.phosphorescentResiduals.push({
+                            origin: senderNodeId,
+                            timestamp: Date.now(),
+                            intensity: intensity * 0.15,
+                            decay: 0.08 + Math.random() * 0.04,
+                            isEcho: true
+                        });
+                        
+                        // Increase charge
+                        this.charge = Math.min(1.0, this.charge + intensity * 0.05);
+                    }
+                    
+                    update(deltaTime) {
+                        // Decay phosphorescent residuals
+                        this.phosphorescentResiduals = this.phosphorescentResiduals
+                            .map(residual => {
+                                residual.intensity *= Math.exp(-residual.decay * deltaTime / 1000);
+                                return residual;
+                            })
+                            .filter(residual => residual.intensity > 0.01);
+                        
+                        // Natural charge recovery
+                        this.charge = Math.min(1.0, this.charge + 0.002 * deltaTime / 1000);
+                        
+                        // Cleanup old pulse history
+                        if (this.pulseHistory.length > 100) {
+                            this.pulseHistory = this.pulseHistory.slice(-100);
+                        }
+                    }
+                    
+                    getState() {
+                        return {
+                            id: this.nodeId,
+                            position: { ...this.position },
+                            charge: this.charge,
+                            scale: this.scale,
+                            entanglementCount: this.entanglements.size,
+                            phosphorescence: this.phosphorescentResiduals.length,
+                            pulseCount: this.pulseHistory.length
+                        };
+                    }
+                },
+                
+                ButterflyNetwork: class ButterflyNetwork {
+                    constructor(networkId) {
+                        this.networkId = networkId;
+                        this.nodes = new Map();
+                        this.createdAt = Date.now();
+                        this.lastUpdateTime = this.createdAt;
+                        this.totalPulseCount = 0;
+                        this.networkScale = 1.0;
+                        this.chromaticShift = 0;
+                    }
+                    
+                    createNode(nodeId, position, initialCharge = 0.5) {
+                        if (this.nodes.has(nodeId)) {
+                            return this.nodes.get(nodeId);
+                        }
+                        
+                        const newNode = new ButterflyProtocol.ButterflyNode(nodeId, position, initialCharge);
+                        this.nodes.set(nodeId, newNode);
+                        
+                        return newNode;
+                    }
+                    
+                    getNode(nodeId) {
+                        return this.nodes.get(nodeId) || null;
+                    }
+                    
+                    entangleNodes(nodeId1, nodeId2, strength = 1.0) {
+                        const node1 = this.getNode(nodeId1);
+                        const node2 = this.getNode(nodeId2);
+                        
+                        if (!node1 || !node2) return false;
+                        
+                        return node1.entangleWith(node2, strength);
+                    }
+                    
+                    update(currentTime = Date.now()) {
+                        const deltaTime = currentTime - this.lastUpdateTime;
+                        this.lastUpdateTime = currentTime;
+                        
+                        this.chromaticShift = (this.chromaticShift + 0.05 * deltaTime / 1000) % (Math.PI * 2);
+                        
+                        for (const [nodeId, node] of this.nodes.entries()) {
+                            node.update(deltaTime);
+                        }
+                        
+                        let totalPulses = 0;
+                        for (const node of this.nodes.values()) {
+                            totalPulses += node.pulseHistory.length;
+                        }
+                        
+                        const newPulses = totalPulses - this.totalPulseCount;
+                        this.totalPulseCount = totalPulses;
+                        
+                        if (newPulses > 0) {
+                            const activityFactor = Math.min(10, newPulses) / 10;
+                            this.networkScale = this.networkScale * 0.95 + 0.05 * (1 + activityFactor * 0.5);
+                        } else {
+                            this.networkScale = this.networkScale * 0.99 + 0.01;
+                        }
+                    }
+                    
+                    createPattern(patternName, options = {}) {
+                        const defaults = {
+                            nodeCount: 7,
+                            radius: 100,
+                            chargeVariation: 0.2,
+                            centerCharge: 0.8
+                        };
+                        
+                        const config = { ...defaults, ...options };
+                        
+                        switch (patternName) {
+                            case 'circle':
+                                this._createCirclePattern(config);
+                                break;
+                            case 'butterfly':
+                                this._createButterflyPattern(config);
+                                break;
+                            case 'neural':
+                                this._createNeuralPattern(config);
+                                break;
+                        }
+                        
+                        return this;
+                    }
+                    
+                    _createCirclePattern(config) {
+                        const centerNode = this.createNode('center', { x: 0, y: 0, z: 0 }, config.centerCharge);
+                        
+                        for (let i = 0; i < config.nodeCount; i++) {
+                            const angle = (i / config.nodeCount) * Math.PI * 2;
+                            const x = Math.cos(angle) * config.radius;
+                            const y = Math.sin(angle) * config.radius;
+                            const z = 0;
+                            
+                            const nodeCharge = 0.5 + (Math.random() - 0.5) * config.chargeVariation;
+                            const nodeId = `circle-${i}`;
+                            
+                            const node = this.createNode(nodeId, { x, y, z }, nodeCharge);
+                            
+                            this.entangleNodes(node.nodeId, centerNode.nodeId);
+                            
+                            if (i > 0) {
+                                this.entangleNodes(node.nodeId, `circle-${i-1}`);
+                            }
+                        }
+                        
+                        if (config.nodeCount > 2) {
+                            this.entangleNodes(`circle-0`, `circle-${config.nodeCount-1}`);
+                        }
+                    }
+                    
+                    _createButterflyPattern(config) {
+                        const bodyNode = this.createNode('body', { x: 0, y: 0, z: 0 }, config.centerCharge);
+                        
+                        const wingCount = Math.max(3, Math.floor(config.nodeCount / 2));
+                        
+                        // Left wing
+                        for (let i = 0; i < wingCount; i++) {
+                            const angle = (i / wingCount) * Math.PI * 0.8 - Math.PI * 0.4;
+                            const distance = config.radius * (0.5 + i / wingCount * 0.5);
+                            
+                            const x = -Math.cos(angle) * distance;
+                            const y = Math.sin(angle) * distance;
+                            const z = Math.sin(i / wingCount * Math.PI) * 20;
+                            
+                            const nodeCharge = 0.5 + (Math.random() - 0.5) * config.chargeVariation;
+                            const nodeId = `left-wing-${i}`;
+                            
+                            const node = this.createNode(nodeId, { x, y, z }, nodeCharge);
+                            
+                            this.entangleNodes(node.nodeId, bodyNode.nodeId);
+                            
+                            if (i > 0) {
+                                this.entangleNodes(node.nodeId, `left-wing-${i-1}`);
+                            }
+                        }
+                        
+                        // Right wing
+                        for (let i = 0; i < wingCount; i++) {
+                            const angle = (i / wingCount) * Math.PI * 0.8 - Math.PI * 0.4;
+                            const distance = config.radius * (0.5 + i / wingCount * 0.5);
+                            
+                            const x = Math.cos(angle) * distance;
+                            const y = Math.sin(angle) * distance;
+                            const z = Math.sin(i / wingCount * Math.PI) * 20;
+                            
+                            const nodeCharge = 0.5 + (Math.random() - 0.5) * config.chargeVariation;
+                            const nodeId = `right-wing-${i}`;
+                            
+                            const node = this.createNode(nodeId, { x, y, z }, nodeCharge);
+                            
+                            this.entangleNodes(node.nodeId, bodyNode.nodeId);
+                            
+                            if (i > 0) {
+                                this.entangleNodes(node.nodeId, `right-wing-${i-1}`);
+                            }
+                            
+                            this.entangleNodes(node.nodeId, `left-wing-${i}`);
+                        }
+                        
+                        // Create antennae
+                        const leftAntenna = this.createNode('left-antenna', { x: -20, y: 30, z: 5 }, 0.7);
+                        const rightAntenna = this.createNode('right-antenna', { x: 20, y: 30, z: 5 }, 0.7);
+                        
+                        this.entangleNodes(leftAntenna.nodeId, bodyNode.nodeId);
+                        this.entangleNodes(rightAntenna.nodeId, bodyNode.nodeId);
+                        this.entangleNodes(leftAntenna.nodeId, rightAntenna.nodeId);
+                    }
+                    
+                    _createNeuralPattern(config) {
+                        const layers = 3;
+                        const nodesPerLayer = Math.ceil(config.nodeCount / layers);
+                        
+                        // Input layer
+                        for (let i = 0; i < nodesPerLayer; i++) {
+                            const offset = (i - nodesPerLayer/2) * 50;
+                            const node = this.createNode(`input-${i}`, { x: offset, y: -100, z: 0 }, 0.6);
+                        }
+                        
+                        // Hidden layer
+                        for (let i = 0; i < nodesPerLayer; i++) {
+                            const offset = (i - nodesPerLayer/2) * 50;
+                            const node = this.createNode(`hidden-${i}`, { x: offset, y: 0, z: 20 }, 0.5);
+                            
+                            // Connect to all input nodes
+                            for (let j = 0; j < nodesPerLayer; j++) {
+                                this.entangleNodes(node.nodeId, `input-${j}`);
+                            }
+                        }
+                        
+                        // Output layer
+                        for (let i = 0; i < nodesPerLayer; i++) {
+                            const offset = (i - nodesPerLayer/2) * 50;
+                            const node = this.createNode(`output-${i}`, { x: offset, y: 100, z: 0 }, 0.7);
+                            
+                            // Connect to all hidden nodes
+                            for (let j = 0; j < nodesPerLayer; j++) {
+                                this.entangleNodes(node.nodeId, `hidden-${j}`);
+                            }
+                        }
+                    }
+                    
+                    generatePulse(nodeId, intensity, payload) {
+                        const node = this.getNode(nodeId);
+                        
+                        if (!node) return 0;
+                        
+                        return node.emitPulse(intensity, payload);
+                    }
+                    
+                    generateNeuralPattern(nodeId, frequency = 10, amplitude = 0.7) {
+                        const node = this.getNode(nodeId);
+                        
+                        if (!node) return 0;
+                        
+                        // Generate simplified neural pattern
+                        const pattern = Array(20).fill(0).map((_, i) => {
+                            const x = i / 20;
+                            const oscillation = Math.sin(x * Math.PI * 2 * frequency);
+                            const sigmoid = 1 / (1 + Math.exp(-10 * oscillation));
+                            const noise = (Math.random() - 0.5) * 0.2;
+                            return (sigmoid * amplitude) + noise;
+                        });
+                        
+                        const payload = {
+                            type: 'neural',
+                            timestamp: Date.now(),
+                            data: pattern,
+                        };
+                        
+                        return node.emitPulse(amplitude, payload);
+                    }
+                    
+                    broadcastMessage(message, seedCount = 1) {
+                        if (this.nodes.size === 0) return [];
+                        
+                        const nodeIds = Array.from(this.nodes.keys());
+                        const seedNodes = [];
+                        
+                        for (let i = 0; i < Math.min(seedCount, nodeIds.length); i++) {
+                            const randomIndex = Math.floor(Math.random() * nodeIds.length);
+                            const selectedId = nodeIds[randomIndex];
+                            
+                            seedNodes.push(selectedId);
+                            nodeIds.splice(randomIndex, 1);
+                        }
+                        
+                        seedNodes.forEach(nodeId => {
+                            const node = this.getNode(nodeId);
+                            const intensity = 0.6 + Math.random() * 0.3;
+                            
+                            node.emitPulse(intensity, {
+                                type: 'broadcast',
+                                message,
+                                timestamp: Date.now(),
+                                source: nodeId,
+                                requiresEcho: true
+                            });
+                        });
+                        
+                        return seedNodes;
+                    }
+                    
+                    getStatistics() {
+                        let totalCharge = 0;
+                        let totalEntanglements = 0;
+                        let maxCharge = 0;
+                        let minCharge = 1;
+                        
+                        const nodeStates = [];
+                        
+                        for (const [nodeId, node] of this.nodes.entries()) {
+                            const state = node.getState();
+                            nodeStates.push(state);
+                            
+                            totalCharge += node.charge;
+                            totalEntanglements += node.entanglements.size;
+                            
+                            if (node.charge > maxCharge) maxCharge = node.charge;
+                            if (node.charge < minCharge) minCharge = node.charge;
+                        }
+                        
+                        return {
+                            networkId: this.networkId,
+                            nodeCount: this.nodes.size,
+                            totalPulseCount: this.totalPulseCount,
+                            avgCharge: this.nodes.size ? totalCharge / this.nodes.size : 0,
+                            maxCharge,
+                            minCharge,
+                            avgEntanglements: this.nodes.size ? totalEntanglements / this.nodes.size : 0,
+                            chromaticShift: this.chromaticShift,
+                            networkScale: this.networkScale,
+                            uptime: Date.now() - this.createdAt,
+                            nodeStates
+                        };
+                    }
+                },
+                
+                ButterflyVisualizer: class ButterflyVisualizer {
+                    constructor(network, canvasId) {
+                        this.network = network;
+                        this.canvas = document.getElementById(canvasId);
+                        this.ctx = this.canvas.getContext('2d');
+                        this.camera = {
+                            x: 0,
+                            y: 0,
+                            z: 400,
+                            rotationX: 0,
+                            rotationY: 0
+                        };
+                        this.isRunning = false;
+                        this.lastFrameTime = 0;
+                        
+                        // Visual settings
+                        this.settings = {
+                            backgroundColor: '#120012',
+                            nodeColor: '#FF00FF',
+                            entanglementColor: '#FF77FF',
+                            pulseColor: '#FFAAFF',
+                            gridColor: '#330033',
+                            textColor: '#FFFFFF',
+                            showGrid: true,
+                            showStats: true,
+                            pulseSpeed: 100,
+                            glowIntensity: 0.8,
+                            nodeSize: 10
+                        };
+                        
+                        // Set up event listeners for camera control
+                        this._setupEventListeners();
+                        this._resizeCanvas();
+                    }
+                    
+                    _setupEventListeners() {
+                        // Mouse drag to rotate camera
+                        let isDragging = false;
+                        let prevMouseX = 0;
+                        let prevMouseY = 0;
+                        
+                        this.canvas.addEventListener('mousedown', (e) => {
+                            isDragging = true;
+                            prevMouseX = e.clientX;
+                            prevMouseY = e.clientY;
+                        });
+                        
+                        window.addEventListener('mousemove', (e) => {
+                            if (!isDragging) return;
+                            
+                            const deltaX = e.clientX - prevMouseX;
+                            const deltaY = e.clientY - prevMouseY;
+                            
+                            this.camera.rotationY += deltaX * 0.01;
+                            this.camera.rotationX += deltaY * 0.01;
+                            
+                            // Limit vertical rotation
+                            this.camera.rotationX = Math.max(-Math.PI/2, Math.min(Math.PI/2, this.camera.rotationX));
+                            
+                            prevMouseX = e.clientX;
+                            prevMouseY = e.clientY;
+                        });
+                        
+                        window.addEventListener('mouseup', () => {
+                            isDragging = false;
+                        });
+                        
+                        window.addEventListener('resize', () => {
+                            this._resizeCanvas();
+                        });
+                    }
+                    
+                    _resizeCanvas() {
+                        const parent = this.canvas.parentElement;
+                        this.canvas.width = parent ? parent.clientWidth : window.innerWidth;
+                        this.canvas.height = parent ? parent.clientHeight : window.innerHeight;
+                    }
+                    
+                    start() {
+                        if (this.isRunning) return;
+                        
+                        this.isRunning = true;
+                        this.lastFrameTime = performance.now();
+                        
+                        const renderLoop = (timestamp) => {
+                            if (!this.isRunning) return;
+                            
+                            const deltaTime = timestamp - this.lastFrameTime;
+                            this.lastFrameTime = timestamp;
+                            
+                            // Update network
+                            this.network.update(Date.now());
+                            
+                            // Render
+                            this._renderFrame(deltaTime);
+                            
+                            // Request next frame
+                            requestAnimationFrame(renderLoop);
+                        };
+                        
+                        requestAnimationFrame(renderLoop);
+                    }
+                    
+                    stop() {
+                        this.isRunning = false;
+                    }
+                    
+                    _renderFrame(deltaTime) {
+                        const { ctx, settings } = this;
+                        const { width, height } = this.canvas;
+                        
+                        // Clear canvas
+                        ctx.fillStyle = settings.backgroundColor;
+                        ctx.fillRect(0, 0, width, height);
+                        
+                        // Draw grid if enabled
+                        if (settings.showGrid) {
+                            this._drawGrid();
+                        }
+                        
+                        // Get network statistics
+                        const stats = this.network.getStatistics();
+                        
+                        // Draw entanglements
+                        this._drawEntanglements(stats.nodeStates);
+                        
+                        // Draw nodes
+                        this._drawNodes(stats.nodeStates);
+                        
+                        // Draw statistics if enabled
+                        if (settings.showStats) {
+                            this._drawStatistics(stats);
+                        }
+                    }
+                    
+                    _drawGrid() {
+                        const { ctx, settings } = this;
+                        const { width, height } = this.canvas;
+                        
+                        ctx.strokeStyle = settings.gridColor;
+                        ctx.lineWidth = 0.5;
+                        ctx.globalAlpha = 0.3;
+                        
+                        const gridSize = 50;
+                        
+                        // Draw horizontal grid lines
+                        for (let y = 0; y < height; y += gridSize) {
+                            ctx.beginPath();
+                            ctx.moveTo(0, y);
+                            ctx.lineTo(width, y);
+                            ctx.stroke();
+                        }
+                        
+                        // Draw vertical grid lines
+                        for (let x = 0; x < width; x += gridSize) {
+                            ctx.beginPath();
+                            ctx.moveTo(x, 0);
+                            ctx.lineTo(x, height);
+                            ctx.stroke();
+                        }
+                        
+                        ctx.globalAlpha = 1.0;
+                    }
+                    
+                    _drawNodes(nodeStates) {
+                        const { ctx, settings } = this;
+                        const centerX = this.canvas.width / 2;
+                        const centerY = this.canvas.height / 2;
+                        
+                        for (const state of nodeStates) {
+                            // Apply camera transform for 3D effect
+                            const x = centerX + state.position.x;
+                            const y = centerY + state.position.y;
+                            
+                            // Calculate node size based on charge and scale
+                            const size = settings.nodeSize * state.scale * (0.8 + state.charge * 0.4);
+                            
+                            // Draw node glow
+                            ctx.globalAlpha = 0.7 * state.charge;
+                            ctx.fillStyle = settings.nodeColor;
+                            
+                            // Outer glow
+                            ctx.beginPath();
+                            ctx.arc(x, y, size * 2, 0, Math.PI * 2);
+                            ctx.fill();
+                            
+                            // Inner glow
+                            ctx.globalAlpha = 0.8 * state.charge;
+                            ctx.beginPath();
+                            ctx.arc(x, y, size * 1.5, 0, Math.PI * 2);
+                            ctx.fill();
+                            
+                            // Core
+                            ctx.globalAlpha = 1.0;
+                            ctx.beginPath();
+                            ctx.arc(x, y, size, 0, Math.PI * 2);
+                            ctx.fill();
+                            
+                            // Draw node ID
+                            ctx.fillStyle = settings.textColor;
+                            ctx.font = '10px monospace';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillText(state.id, x, y + size + 10);
+                        }
+                    }
+                    
+                    _drawEntanglements(nodeStates) {
+                        const { ctx, settings, network } = this;
+                        const centerX = this.canvas.width / 2;
+                        const centerY = this.canvas.height / 2;
+                        
+                        // Create a map of node positions
+                        const nodePositions = new Map();
+                        for (const state of nodeStates) {
+                            nodePositions.set(state.id, {
+                                x: centerX + state.position.x,
+                                y: centerY + state.position.y,
+                                charge: state.charge
+                            });
+                        }
+                        
+                        // Draw connections
+                        for (const [nodeId, node] of network.nodes.entries()) {
+                            const sourcePos = nodePositions.get(nodeId);
+                            
+                            if (!sourcePos) continue;
+                            
+                            for (const [targetId, entanglement] of node.entanglements.entries()) {
+                                const targetPos = nodePositions.get(targetId);
+                                
+                                if (!targetPos) continue;
+                                
+                                // Skip if already drawn (to avoid duplicates)
+                                if (targetId < nodeId) continue;
+                                
+                                // Calculate line width based on entanglement strength
+                                const lineWidth = Math.max(0.5, entanglement.strength * 3);
+                                
+                                // Calculate alpha based on charge
+                                const alpha = Math.min(0.8, 0.2 + sourcePos.charge * 0.3 + targetPos.charge * 0.3);
+                                
+                                // Draw entanglement line
+                                ctx.strokeStyle = settings.entanglementColor;
+                                ctx.lineWidth = lineWidth;
+                                ctx.globalAlpha = alpha;
+                                
+                                ctx.beginPath();
+                                ctx.moveTo(sourcePos.x, sourcePos.y);
+                                ctx.lineTo(targetPos.x, targetPos.y);
+                                ctx.stroke();
+                                
+                                // Draw pulse if active
+                                if (entanglement.pulseCount > 0) {
+                                    this._drawPulse(sourcePos, targetPos, entanglement);
+                                }
+                            }
+                        }
+                        
+                        ctx.globalAlpha = 1.0;
+                    }
+                    
+                    _drawPulse(source, target, entanglement) {
+                        const { ctx, settings } = this;
+                        
+                        // Calculate pulse position based on time
+                        const now = Date.now();
+                        const pulseAge = now - entanglement.establishedAt;
+                        const pulsePhase = (pulseAge % 2000) / 2000; // 0 to 1 over 2 seconds
+                        
+                        // Calculate position along the line
+                        const x = source.x + (target.x - source.x) * pulsePhase;
+                        const y = source.y + (target.y - source.y) * pulsePhase;
+                        
+                        // Draw pulse
+                        ctx.fillStyle = settings.pulseColor;
+                        ctx.globalAlpha = 0.8 * Math.sin(pulsePhase * Math.PI);
+                        
+                        ctx.beginPath();
+                        ctx.arc(x, y, 5, 0, Math.PI * 2);
+                        ctx.fill();
+                        
+                        ctx.globalAlpha = 1.0;
+                    }
+                    
+                    _drawStatistics(stats) {
+                        const { ctx, settings } = this;
+                        const { width } = this.canvas;
+                        
+                        ctx.fillStyle = settings.textColor;
+                        ctx.font = '12px monospace';
+                        ctx.textAlign = 'right';
+                        ctx.textBaseline = 'top';
+                        
+                        const lines = [
+                            `Network: ${stats.networkId}`,
+                            `Nodes: ${stats.nodeCount}`,
+                            `Pulses: ${stats.totalPulseCount}`,
+                            `Avg Charge: ${stats.avgCharge.toFixed(2)}`,
+                            `Uptime: ${Math.floor(stats.uptime / 1000)}s`
+                        ];
+                        
+                        for (let i = 0; i < lines.length; i++) {
+                            ctx.fillText(lines[i], width - 20, 20 + i * 20);
+                        }
+                    }
+                    
+                    _projectPoint(point) {
+                        // Simplified 3D projection
+                        return point;
+                    }
+                    
+                    getNodeAtPosition(x, y) {
+                        // Implement node hit testing here
+                        return null;
+                    }
+                }
+            };
+            
+            // Hide loading overlay after a delay
+            setTimeout(() => {<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pink Butterfly Protocol: Cybernetic Transmission System</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #08082c;
+            color: #e0e8ff;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+        }
+        
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+        
+        .visualization {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #butterfly-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .controls {
+            width: 300px;
+            background-color: rgba(15, 15, 50, 0.7);
+            padding: 20px;
+            overflow-y: auto;
+            box-shadow: -2px 0 10px rgba(65, 105, 225, 0.4);
+        }
+        
+        h1, h2 {
+            color: #8a2be2;
+            margin-top: 0;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(65, 105, 225, 0.6);
+        }
+        
+        h1 {
+            font-size: 1.4em;
+            margin-bottom: 5px;
+        }
+        
+        h2 {
+            font-size: 1em;
+            margin-bottom: 20px;
+            font-weight: normal;
+            opacity: 0.8;
+        }
+        
+        .control-group {
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(65, 105, 225, 0.4);
+            padding-bottom: 15px;
+        }
+        
+        .control-label {
+            display: block;
+            margin-bottom: 5px;
+            color: #00bfff;
+        }
+        
+        button {
+            background-color: #1a1a4d;
+            color: #00bfff;
+            border: 1px solid #4169e1;
+            padding: 8px 12px;
+            margin: 5px 0;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: #2a2a7d;
+            box-shadow: 0 0 10px rgba(65, 105, 225, 0.5);
+        }
+        
+        .slider-container {
+            margin: 10px 0;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            background: #1e1e66;
+        }
+        
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: rgba(15, 15, 60, 0.5);
+            border-left: 3px solid #4169e1;
+            font-size: 0.9em;
+        }
+        
+        .node-list {
+            margin-top: 10px;
+            max-height: 150px;
+            overflow-y: auto;
+            background-color: rgba(15, 15, 60, 0.5);
+            padding: 5px;
+        }
+        
+        .node-item {
+            padding: 3px 5px;
+            cursor: pointer;
+            border-left: 2px solid transparent;
+        }
+        
+        .node-item:hover {
+            background-color: rgba(65, 105, 225, 0.3);
+            border-left: 2px solid #4169e1;
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .credits {
+            font-size: 0.8em;
+            text-align: center;
+            margin-top: 30px;
+            opacity: 0.7;
+        }
+        
+        /* Loading overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(10, 10, 40, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .butterfly-loader {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .butterfly-wing {
+            position: absolute;
+            width: 50px;
+            height: 80px;
+            opacity: 0.7;
+            border-radius: 50% 50% 0 50%;
+            top: 10px;
+        }
+        
+        .left-wing {
+            left: 0;
+            background-color: #4169e1;
+            transform-origin: right center;
+            animation: flap-left 1.5s infinite;
+        }
+        
+        .right-wing {
+            right: 0;
+            background-color: #8a2be2;
+            transform: scaleX(-1);
+            transform-origin: left center;
+            animation: flap-right 1.5s infinite;
+        }
+        
+        @keyframes flap-left {
+            0%, 100% { transform: rotateY(0deg); }
+            50% { transform: rotateY(60deg); }
+        }
+        
+        @keyframes flap-right {
+            0%, 100% { transform: scaleX(-1) rotateY(0deg); }
+            50% { transform: scaleX(-1) rotateY(60deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="butterfly-loader">
+            <div class="butterfly-wing left-wing"></div>
+            <div class="butterfly-wing right-wing"></div>
+        </div>
+        <h2>Initializing Indigo Butterfly Protocol...</h2>
+    </div>
+
+    <div class="container">
+        <div class="visualization">
+            <canvas id="butterfly-canvas"></canvas>
+        </div>
+        
+        <div class="controls">
+            <h1>Indigo Butterfly Protocol</h1>
+            <h2>Cybernetic Transmission System</h2>
+            
+            <div class="control-group">
+                <span class="control-label">Network Configuration</span>
+                <button id="create-butterfly">Create Butterfly Network</button>
+                <button id="create-neural">Create Neural Network</button>
+                <button id="create-circle">Create Circle Network</button>
+            </div>
+            
+            <div class="control-group">
+                <span class="control-label">Transmission Controls</span>
+                <button id="emit-pulse">Emit Pulse</button>
+                <button id="broadcast-message">Broadcast Message</button>
+                <button id="generate-neural">Generate Neural Pattern</button>
+                
+                <div class="slider-container">
+                    <span class="control-label">Pulse Intensity</span>
+                    <input type="range" id="pulse-intensity" min="0.1" max="1.0" step="0.1" value="0.7">
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <span class="control-label">Node Selection</span>
+                <div class="node-list" id="node-list">
+                    <!-- Nodes will be listed here -->
+                    <div class="node-item">No nodes available</div>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <span class="control-label">Visualization Controls</span>
+                <button id="toggle-grid">Toggle Grid</button>
+                <button id="toggle-stats">Toggle Statistics</button>
+                
+                <div class="slider-container">
+                    <span class="control-label">Node Size</span>
+                    <input type="range" id="node-size" min="5" max="20" step="1" value="10">
+                </div>
+                
+                <div class="slider-container">
+                    <span class="control-label">Glow Intensity</span>
+                    <input type="range" id="glow-intensity" min="0.1" max="1.0" step="0.1" value="0.8">
+                </div>
+            </div>
+            
+            <div class="status" id="status">
+                System ready. Initialize a network to begin.
+            </div>
+            
+            <div class="credits">
+                Indigo Butterfly Protocol v1.0<br>
+                A cybernetic transmission system
+            </div>
+        </div>
+    </div>1.0" step="0.1" value="0.8">
+                </div>
+            </div>
+            
+            <div class="status" id="status">
+                System ready. Initialize a network to begin.
+            </div>
+            
+            <div class="credits">
+                Indigo Butterfly Protocol v1.0<br>
+                A cybernetic transmission system
+            </div>
+        </div>
+    </div>1.0" step="0.1" value="0.8">
+                </div>
+            </div>
+            
+            <div class="status" id="status">
+                System ready. Initialize a network to begin.
+            </div>
+            
+            <div class="credits">
+                Pink Butterfly Protocol v1.0<br>
+                A cybernetic transmission system
+            </div>
+        </div>
+    </div>
+
+    <script src="pink-butterfly-protocol.js"></script>
+    <script>
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide loading overlay after a delay
+            setTimeout(() => {
+                document.getElementById('loading-overlay').style.display = 'none';
+            }, 2000);
+            
+            // Initialize variables
+            let network = null;
+            let visualizer = null;
+            let selectedNodeId = null;
+            
+            // Get DOM elements
+            const canvas = document.getElementById('butterfly-canvas');
+            const nodeList = document.getElementById('node-list');
+            const statusElement = document.getElementById('status');
+            
+            // Network creation buttons
+            document.getElementById('create-butterfly').addEventListener('click', () => {
+                createNetwork('butterfly');
+            });
+            
+            document.getElementById('create-neural').addEventListener('click', () => {
+                createNetwork('neural');
+            });
+            
+            document.getElementById('create-circle').addEventListener('click', () => {
+                createNetwork('circle');
+            });
+            
+            // Transmission buttons
+            document.getElementById('emit-pulse').addEventListener('click', () => {
+                emitPulse();
+            });
+            
+            document.getElementById('broadcast-message').addEventListener('click', () => {
+                broadcastMessage();
+            });
+            
+            document.getElementById('generate-neural').addEventListener('click', () => {
+                generateNeuralPattern();
+            });
+            
+            // Visualization control buttons
+            document.getElementById('toggle-grid').addEventListener('click', () => {
+                if (visualizer) {
+                    visualizer.settings.showGrid = !visualizer.settings.showGrid;
+                    updateStatus(`Grid display ${visualizer.settings.showGrid ? 'enabled' : 'disabled'}`);
+                }
+            });
+            
+            document.getElementById('toggle-stats').addEventListener('click', () => {
+                if (visualizer) {
+                    visualizer.settings.showStats = !visualizer.settings.showStats;
+                    updateStatus(`Statistics display ${visualizer.settings.showStats ? 'enabled' : 'disabled'}`);
+                }
+            });
+            
+            // Sliders
+            document.getElementById('node-size').addEventListener('input', function() {
+                if (visualizer) {
+                    visualizer.settings.nodeSize = parseInt(this.value);
+                }
+            });
+            
+            document.getElementById('glow-intensity').addEventListener('input', function() {
+                if (visualizer) {
+                    visualizer.settings.glowIntensity = parseFloat(this.value);
+                }
+            });
+            
+            /**
+             * Create a new network with the specified pattern
+             * @param {string} pattern - Pattern type ('butterfly', 'neural', 'circle')
+             */
+            function createNetwork(pattern) {
+                // Stop previous visualizer if it exists
+                if (visualizer) {
+                    visualizer.stop();
+                }
+                
+                // Create new network
+                network = new ButterflyProtocol.ButterflyNetwork(`indigo-${pattern}-${Date.now()}`);
+                
+                // Create pattern with different configurations based on type
+                let config = {};
+                
+                switch(pattern) {
+                    case 'butterfly':
+                        config = { radius: 150, nodeCount: 5, centerCharge: 0.9 };
+                        break;
+                    case 'neural':
+                        config = { nodeCount: 12, radius: 100 };
+                        break;
+                    case 'circle':
+                        config = { nodeCount: 8, radius: 120 };
+                        break;
+                }
+                
+                network.createPattern(pattern, config);
+                
+                // Initialize visualizer with blue/indigo theme
+                visualizer = new ButterflyProtocol.ButterflyVisualizer(network, 'butterfly-canvas');
+                
+                // Update color palette to include more blues and indigos
+                visualizer.settings.backgroundColor = '#0a0026'; // Darker indigo background
+                visualizer.settings.nodeColor = '#8A2BE2'; // Blueviolet
+                visualizer.settings.entanglementColor = '#4169E1'; // Royal blue
+                visualizer.settings.pulseColor = '#00BFFF'; // Deep sky blue
+                visualizer.settings.gridColor = '#1E0066'; // Deep indigo
+                visualizer.settings.textColor = '#E6E6FA'; // Lavender
+                
+                visualizer.start();
+                
+                // Update UI
+                updateNodeList();
+                updateStatus(`Created ${pattern} network with ${network.nodes.size} nodes`);
+            }
+            
+            /**
+             * Update the node list in the UI
+             */
+            function updateNodeList() {
+                if (!network) return;
+                
+                // Clear current list
+                nodeList.innerHTML = '';
+                
+                // Add each node
+                for (const [nodeId, node] of network.nodes.entries()) {
+                    const nodeElement = document.createElement('div');
+                    nodeElement.className = 'node-item';
+                    nodeElement.textContent = nodeId;
+                    
+                    // Set as selected if it matches current selection
+                    if (nodeId === selectedNodeId) {
+                        nodeElement.style.backgroundColor = 'rgba(138, 43, 226, 0.3)'; // Blueviolet with opacity
+                        nodeElement.style.borderLeft = '2px solid #8A2BE2'; // Blueviolet
+                    }
+                    
+                    // Add click handler to select node
+                    nodeElement.addEventListener('click', () => {
+                        selectedNodeId = nodeId;
+                        updateNodeList();
+                        updateStatus(`Selected node: ${nodeId}`);
+                    });
+                    
+                    nodeList.appendChild(nodeElement);
+                }
+            }
+            
+            /**
+             * Emit pulse from selected node
+             */
+            function emitPulse() {
+                if (!network || !selectedNodeId) {
+                    updateStatus('Please select a node first');
+                    return;
+                }
+                
+                const intensity = parseFloat(document.getElementById('pulse-intensity').value);
+                
+                const transmissions = network.generatePulse(selectedNodeId, intensity, {
+                    type: 'manual',
+                    message: 'User-initiated pulse',
+                    timestamp: Date.now()
+                });
+                
+                updateStatus(`Emitted pulse from ${selectedNodeId} with intensity ${intensity.toFixed(1)}. ${transmissions} successful transmissions.`);
+            }
+            
+            /**
+             * Broadcast message from random nodes
+             */
+            function broadcastMessage() {
+                if (!network) {
+                    updateStatus('Please create a network first');
+                    return;
+                }
+                
+                const seedNodes = network.broadcastMessage('Test broadcast message', 2);
+                
+                updateStatus(`Broadcasting message from seed nodes: ${seedNodes.join(', ')}`);
+            }
+            
+            /**
+             * Generate neural pattern from selected node
+             */
+            function generateNeuralPattern() {
+                if (!network || !selectedNodeId) {
+                    updateStatus('Please select a node first');
+                    return;
+                }
+                
+                const frequency = 12.5; // Hz, butterfly wing resonance
+                const amplitude = parseFloat(document.getElementById('pulse-intensity').value);
+                
+                const transmissions = network.generateNeuralPattern(selectedNodeId, frequency, amplitude);
+                
+                updateStatus(`Generated neural pattern from ${selectedNodeId} at ${frequency}Hz. ${transmissions} successful transmissions.`);
+            }
+            
+            /**
+             * Update status message
+             * @param {string} message - Status message to display
+             */
+            function updateStatus(message) {
+                statusElement.textContent = message;
+                statusElement.classList.add('pulse-animation');
+                
+                // Remove animation class after a delay
+                setTimeout(() => {
+                    statusElement.classList.remove('pulse-animation');
+                }, 2000);
+            }
+            
+            // Create default butterfly network on start
+            setTimeout(() => {
+                createNetwork('butterfly');
+            }, 2500);
+        });
+    </script>
+</body>
+</html>
