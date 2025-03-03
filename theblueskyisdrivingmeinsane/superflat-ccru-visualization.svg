@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800">
+  <!-- Background gradient representing digital space -->
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070B34" />
+      <stop offset="100%" stop-color="#1A1832" />
+    </linearGradient>
+    
+    <!-- Circle patterns inspired by virus structures -->
+    <pattern id="viralPattern" patternUnits="userSpaceOnUse" width="60" height="60">
+      <circle cx="30" cy="30" r="15" fill="none" stroke="#FF4D5A" stroke-width="1" opacity="0.3" />
+      <circle cx="30" cy="30" r="5" fill="#FF4D5A" opacity="0.2" />
+    </pattern>
+    
+    <!-- Superflat-inspired pattern with flat colors and simplified shapes -->
+    <pattern id="superflatPattern" patternUnits="userSpaceOnUse" width="80" height="80">
+      <rect x="0" y="0" width="40" height="40" fill="#0CF2FF" opacity="0.1" />
+      <rect x="40" y="40" width="40" height="40" fill="#FF4D5A" opacity="0.1" />
+    </pattern>
+    
+    <!-- Filters -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Main background -->
+  <rect width="100%" height="100%" fill="url(#bg-gradient)" />
+  
+  <!-- Superflat-inspired layer -->
+  <rect width="100%" height="100%" fill="url(#superflatPattern)" opacity="0.8" />
+  
+  <!-- Viral pattern layer -->
+  <rect width="100%" height="100%" fill="url(#viralPattern)" opacity="0.6" />
+
+  <!-- Central conceptual diagram -->
+  <g transform="translate(500, 400)">
+    <!-- Central node: CCRU Data Scraper -->
+    <circle cx="0" cy="0" r="100" fill="#0CF2FF" opacity="0.8" />
+    <text x="0" y="10" font-family="Courier New, monospace" font-size="18" fill="white" text-anchor="middle">CCRU DATA</text>
+    <text x="0" y="30" font-family="Courier New, monospace" font-size="18" fill="white" text-anchor="middle">SCRAPER</text>
+    
+    <!-- Orbital connection lines -->
+    <!-- Superflat aesthetics connection -->
+    <line x1="0" y1="0" x2="-200" y2="-200" stroke="#FF4D5A" stroke-width="3" stroke-dasharray="5,5" />
+    
+    <!-- HIV Research methodology connection -->
+    <line x1="0" y1="0" x2="200" y2="-200" stroke="#0CF2FF" stroke-width="3" stroke-dasharray="5,5" />
+    
+    <!-- Digital Network connection -->
+    <line x1="0" y1="0" x2="0" y2="-250" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="5,5" />
+    
+    <!-- Hyperstition connection -->
+    <line x1="0" y1="0" x2="0" y2="200" stroke="#FFC700" stroke-width="3" stroke-dasharray="5,5" />
+    
+    <!-- Information flow paths -->
+    <path d="M-80,-80 C-150,-40 -150,40 -80,80" fill="none" stroke="#FF4D5A" stroke-width="2" />
+    <path d="M80,-80 C150,-40 150,40 80,80" fill="none" stroke="#0CF2FF" stroke-width="2" />
+    
+    <!-- Orbital concepts -->
+    <!-- Superflat aesthetics node -->
+    <circle cx="-200" cy="-200" r="70" fill="#FF4D5A" opacity="0.8" />
+    <text x="-200" y="-195" font-family="Courier New, monospace" font-size="14" fill="white" text-anchor="middle">SUPERFLAT</text>
+    <text x="-200" y="-175" font-family="Courier New, monospace" font-size="14" fill="white" text-anchor="middle">AESTHETICS</text>
+    
+    <!-- HIV Research node -->
+    <circle cx="200" cy="-200" r="70" fill="#0CF2FF" opacity="0.8" />
+    <text x="200" y="-195" font-family="Courier New, monospace" font-size="14" fill="white" text-anchor="middle">HIV RESEARCH</text>
+    <text x="200" y="-175" font-family="Courier New, monospace" font-size="14" fill="white" text-anchor="middle">METHODOLOGY</text>
+    
+    <!-- Digital Network node -->
+    <circle cx="0" cy="-250" r="70" fill="#FFFFFF" opacity="0.5" />
+    <text x="0" y="-245" font-family="Courier New, monospace" font-size="14" fill="white" text-anchor="middle">DIGITAL</text>
+    <text x="0" y="-225" font-family="Courier New, monospace" font-size="14" fill="white" text-anchor="middle">NETWORK</text>
+    
+    <!-- Hyperstition node -->
+    <circle cx="0" cy="200" r="70" fill="#FFC700" opacity="0.8" />
+    <text x="0" y="205" font-family="Courier New, monospace" font-size="14" fill="white" text-anchor="middle">HYPERSTITION</text>
+  </g>
+  
+  <!-- Concept connection details -->
+  <!-- Superflat connection details -->
+  <g transform="translate(150, 150)">
+    <rect x="0" y="0" width="200" height="120" rx="10" ry="10" fill="#1A1832" stroke="#FF4D5A" stroke-width="2" />
+    <text x="100" y="30" font-family="Courier New, monospace" font-size="12" fill="#FF4D5A" text-anchor="middle">SUPERFLAT ELEMENTS:</text>
+    <text x="100" y="55" font-family="Courier New, monospace" font-size="10" fill="white" text-anchor="middle">• Flattened hierarchies</text>
+    <text x="100" y="75" font-family="Courier New, monospace" font-size="10" fill="white" text-anchor="middle">• Surface-level analysis</text>
+    <text x="100" y="95" font-family="Courier New, monospace" font-size="10" fill="white" text-anchor="middle">• Cultural dissemination</text>
+  </g>
+  
+  <!-- HIV Research connection details -->
+  <g transform="translate(650, 150)">
+    <rect x="0" y="0" width="200" height="120" rx="10" ry="10" fill="#1A1832" stroke="#0CF2FF" stroke-width="2" />
+    <text x="100" y="30" font-family="Courier New, monospace" font-size="12" fill="#0CF2FF" text-anchor="middle">HIV RESEARCH PARADIGMS:</text>
+    <text x="100" y="55" font-family="Courier New, monospace" font-size="10" fill="white" text-anchor="middle">• Viral propagation models</text>
+    <text x="100" y="75" font-family="Courier New, monospace" font-size="10" fill="white" text-anchor="middle">• Mutation tracking</text>
+    <text x="100" y="95" font-family="Courier New, monospace" font-size="10" fill="white" text-anchor="middle">• Transmission networks</text>
+  </g>
+  
+  <!-- Digital Network connection details -->
+  <g transform="translate(400, 50)">
+    <rect x="0" y="0" width="200" height="100" rx="10" ry="10" fill="#1A1832" stroke="#FFFFFF" stroke-width="2" />
+    <text x="100" y="30" font-family="Courier New, monospace" font-size="12" fill="#FFFFFF" text-anchor="middle">DIGITAL NETWORKS:</text>
+    <text x="100" y="55" font-family="Courier New, monospace" font-size="10" fill="white" text-anchor="middle">• Social media graphs</text>
+    <text x="100" y="75" font-family="Courier New, monospace" font-size="10" fill="white" text-anchor="middle">• Information cascades</text>
+  </g>
+  
+  <!-- Hyperstition connection details -->
+  <g transform="translate(400, 650)">
+    <rect x="0" y="0" width="200" height="100" rx="10" ry="10" fill="#1A1832" stroke="#FFC700" stroke-width="2" />
+    <text x="100" y="30" font-family="Courier New, monospace" font-size="12" fill="#FFC700" text-anchor="middle">HYPERSTITION DYNAMICS:</text>
+    <text x="100" y="55" font-family="Courier New, monospace" font-size="10" fill="white" text-anchor="middle">• Fictions becoming real</text>
+    <text x="100" y="75" font-family="Courier New, monospace" font-size="10" fill="white" text-anchor="middle">• Meme propagation</text>
+  </g>
+  
+  <!-- Core technical elements -->
+  <g transform="translate(50, 350)">
+    <rect x="0" y="0" width="180" height="200" rx="5" ry="5" fill="#070B34" stroke="#0CF2FF" stroke-width="1" />
+    <text x="90" y="30" font-family="Courier New, monospace" font-size="12" fill="#0CF2FF" text-anchor="middle">TECHNICAL ELEMENTS</text>
+    <text x="20" y="60" font-family="Courier New, monospace" font-size="9" fill="white">function scrapeData() {</text>
+    <text x="30" y="80" font-family="Courier New, monospace" font-size="9" fill="white">const data = [];</text>
+    <text x="30" y="100" font-family="Courier New, monospace" font-size="9" fill="white">// Viral approach</text>
+    <text x="30" y="120" font-family="Courier New, monospace" font-size="9" fill="white">ccruKeywords.forEach(</text>
+    <text x="30" y="140" font-family="Courier New, monospace" font-size="9" fill="white">  k => collect(k)</text>
+    <text x="30" y="160" font-family="Courier New, monospace" font-size="9" fill="white">);</text>
+    <text x="20" y="180" font-family="Courier New, monospace" font-size="9" fill="white">}</text>
+  </g>
+  
+  <!-- Conceptual layers -->
+  <g transform="translate(770, 350)">
+    <rect x="0" y="0" width="180" height="200" rx="5" ry="5" fill="#070B34" stroke="#FF4D5A" stroke-width="1" />
+    <text x="90" y="30" font-family="Courier New, monospace" font-size="12" fill="#FF4D5A" text-anchor="middle">CONCEPTUAL LAYERS</text>
+    <text x="20" y="60" font-family="Courier New, monospace" font-size="9" fill="white">• Surface Interface</text>
+    <text x="20" y="85" font-family="Courier New, monospace" font-size="9" fill="white">• Memetic Spread</text>
+    <text x="20" y="110" font-family="Courier New, monospace" font-size="9" fill="white">• Viral Replication</text>
+    <text x="20" y="135" font-family="Courier New, monospace" font-size="9" fill="white">• Digital Antibodies</text>
+    <text x="20" y="160" font-family="Courier New, monospace" font-size="9" fill="white">• Conceptual Mutation</text>
+  </g>
+  
+  <!-- Title and credits -->
+  <g transform="translate(500, 30)">
+    <text x="0" y="0" font-family="Courier New, monospace" font-size="24" fill="white" text-anchor="middle" filter="url(#glow)">CCRU DATA SCRAPER</text>
+    <text x="0" y="30" font-family="Courier New, monospace" font-size="16" fill="#0CF2FF" text-anchor="middle">INTERFACE BETWEEN SUPERFLAT AESTHETICS AND VIRAL RESEARCH</text>
+  </g>
+  
+  <!-- Data flow animation -->
+  <g>
+    <circle cx="300" cy="300" r="3" fill="#FF4D5A">
+      <animate attributeName="cx" from="300" to="500" dur="4s" repeatCount="indefinite" />
+      <animate attributeName="cy" from="300" to="400" dur="4s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="700" cy="300" r="3" fill="#0CF2FF">
+      <animate attributeName="cx" from="700" to="500" dur="5s" repeatCount="indefinite" />
+      <animate attributeName="cy" from="300" to="400" dur="5s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="500" cy="150" r="3" fill="white">
+      <animate attributeName="cy" from="150" to="400" dur="3s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="500" cy="600" r="3" fill="#FFC700">
+      <animate attributeName="cy" from="600" to="400" dur="6s" repeatCount="indefinite" />
+    </circle>
+  </g>
+</svg>

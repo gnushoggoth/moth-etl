@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCRU Bluesky Scraper: Superflat/Viral Visualization</title>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #0a0a14;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #00ccff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        h2 {
+            font-size: 22px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #ff3366;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .dual-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .control-panel {
+            flex: 1;
+            background-color: #121225;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+        
+        .visualization-panel {
+            flex: 2;
+            background-color: #121225;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #aaa;
+            font-size: 14px;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #333;
+            background-color: #16162a;
+            color: #fff;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        
+        button {
+            padding: 12px 20px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background-color 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: #0088ff;
+        }
+        
+        button.secondary {
+            background-color: #333;
+        }
+        
+        button.secondary:hover {
+            background-color: #444;
+        }
+        
+        .status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        
+        .status.info {
+            background-color: rgba(0, 102, 204, 0.2);
+            border-left: 4px solid #0066cc;
+        }
+        
+        .status.success {
+            background-color: rgba(0, 204, 102, 0.2);
+            border-left: 4px solid #00cc66;
+        }
+        
+        .status.error {
+            background-color: rgba(204, 0, 0, 0.2);
+            border-left: 4px solid #cc0000;
+        }
+        
+        .canvas-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            margin-top: 20px;
+            background-color: #0a0a14;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .concept-explanation {
+            background-color: #16162a;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .concept-explanation p {
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+        
+        .highlight {
+            color: #00ccff;
+            font-weight: bold;
+        }
+        
+        .highlight-alt {
+            color: #ff3366;
+            font-weight: bold;
+        }
+        
+        .parameter-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .parameter-slider {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .parameter-slider label {
+            flex: 1;
+            margin-bottom: 0;
+        }
+        
+        .parameter-slider input[type="range"] {
+            flex: 2;
+        }
+        
+        .parameter-value {
+            width: 50px;
+            text-align: center;
+            font-family: monospace;
+            margin-left: 10px;
+        }
+        
+        code {
+            display: block;
+            background-color: #0a0a14;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: monospace;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CCRU Data Scraper: Superflat/Viral Visualization</h1>
+            <p>An interface between Superflat aesthetics and HIV research methodologies</p>
+        </header>
+        
+        <div class="concept-explanation">
+            <h2>Conceptual Framework</h2>
+            <p>This visualization module represents the fusion of two distinct methodological approaches: <span class="highlight">Superflat aesthetics</span> (characterized by Takashi Murakami's flattening of cultural hierarchies and elimination of perspective) and <span class="highlight-alt">Viral research visualization techniques</span> (drawn from epidemiological approaches to mapping HIV transmission patterns).</p>
+            
+            <p>The CCRU Data Scraper collects and analyzes the spread of Cybernetic Culture Research Unit concepts across the Bluesky social network. This visualization represents these propagation patterns through three distinct visual modes:</p>
+            
+            <ul>
+                <li><strong>Superflat Mode:</strong> Emphasizes the flattening of hierarchies and removal of depth, treating all data points as equal elements on the same visual plane.</li>
+                <li><strong>Viral Mode:</strong> Represents data as organic, transmission-based networks with pulsing animations that simulate viral propagation patterns.</li>
+                <li><strong>Hybrid Mode:</strong> Combines both approaches to create a unique visualization paradigm that represents the dual nature of memetic propagation as both structured (superflat) and organic (viral).</li>
+            </ul>
+        </div>
+        
+        <div class="dual-container">
+            <div class="control-panel">
+                <h2>Control Panel</h2>
+                
+                <div class="form-group">
+                    <label for="visual-mode">Visualization Mode:</label>
+                    <select id="visual-mode">
+                        <option value="hybrid">Hybrid (Superflat + Viral)</option>
+                        <option value="superflat">Superflat Aesthetics</option>
+                        <option value="viral">Viral Research</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="color-scheme">Color Scheme:</label>
+                    <select id="color-scheme">
+                        <option value="hybrid">Digital Fusion</option>
+                        <option value="superflat">Murakami-Inspired</option>
+                        <option value="viral">Medical Imaging</option>
+                    </select>
+                </div>
+                
+                <div class="parameter-controls">
+                    <div class="form-group">
+                        <label>Visual Parameters:</label>
+                        
+                        <div class="parameter-slider">
+                            <label for="pulse-rate">Pulse Rate:</label>
+                            <input type="range" id="pulse-rate" min="0.1" max="2.0" step="0.1" value="0.5">
+                            <span id="pulse-rate-value" class="parameter-value">0.5</span>
+                        </div>
+                        
+                        <div class="parameter-slider">
+                            <label for="flatten-rate">Flatten Rate:</label>
+                            <input type="range" id="flatten-rate" min="0.1" max="1.0" step="0.1" value="0.3">
+                            <span id="flatten-rate-value" class="parameter-value">0.3</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Node Parameters:</label>
+                        
+                        <div class="parameter-slider">
+                            <label for="node-size">Node Size:</label>
+                            <input type="range" id="node-size" min="0.5" max="2.0" step="0.1" value="1.0">
+                            <span id="node-size-value" class="parameter-value">1.0</span>
+                        </div>
+                        
+                        <div class="parameter-slider">
+                            <label for="connection-visibility">Connection Opacity:</label>
+                            <input type="range" id="connection-visibility" min="0.1" max="1.0" step="0.1" value="0.7">
+                            <span id="connection-value" class="parameter-value">0.7</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-top: 20px;">
+                    <button id="toggle-animation">Pause Animation</button>
+                    <button id="reset-view" class="secondary" style="margin-left: 10px;">Reset View</button>
+                </div>
+                
+                <div class="status info" id="status-message">
+                    Visualization initialized with placeholder data. Connect to the CCRU scraper for live data.
+                </div>
+            </div>
+            
+            <div class="visualization-panel">
+                <h2>Visualization</h2>
+                <p>Showing the propagation of CCRU concepts through Bluesky's social network.</p>
+                
+                <div class="canvas-container" id="visualization-container">
+                    <!-- Canvas will be inserted here by JavaScript -->
+                </div>
+                
+                <div style="margin-top: 15px;">
+                    <button id="connect-scraper">Connect to CCRU Scraper</button>
+                    <button id="use-placeholder" class="secondary" style="margin-left: 10px;">Use Placeholder Data</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="concept-explanation">
+            <h2>Technical Implementation</h2>
+            
+            <p>The visualization module draws inspiration from both paradigms:</p>
+            
+            <code>
+function renderHybrid(data, colors) {
+    // First, draw a stylized grid background (superflat influence)
+    ctx.strokeStyle = `${colors.edges}22`;
+    
+    // Add viral-inspired cell structures (HIV research influence)
+    const cellCount = 10;
+    ctx.globalAlpha = 0.1;
+    
+    // Draw connections with both angular (superflat) and organic (viral) elements
+    connections.forEach(conn => {
+        const isOrganicConnection = (sourceNode.type !== targetNode.type);
+        
+        if (isOrganicConnection) {
+            // Organic, viral-like connection for cross-domain transmission
+            ctx.bezierCurveTo(controlPointX, sourceNode.y, controlPointX, targetNode.y, targetNode.x, targetNode.y);
+        } else {
+            // Angular, superflat-like connection for structured relationships
+            ctx.lineTo(midX, sourceNode.y);
+            ctx.lineTo(midX, targetNode.y + offsetY);
+            ctx.lineTo(targetNode.x, targetNode.y);
+        }
+    });
+}
+            </code>
+            
+            <p>This hybrid approach represents the theoretical fusion we're exploring: just as superflat aesthetics removes depth from visual representation, and HIV research maps transmission networks without hierarchical structures, our visualization flattens conceptual propagation into observable patterns while preserving the organic, viral nature of memetic spread.</p>
+        </div>
+        
+        <footer>
+            <p>CCRU Data Scraper: Interface Between Superflat Aesthetics and Viral Research Methodologies</p>
+            <p>© 2025 - Dedicated to the study of hyperstition and conceptual contagion</p>
+        </footer>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@atproto/api@0.6.24/dist/index.js"></script>
+    <script src="bluesky-scraper.js"></script>
+    <script src="visualization-module.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize the visualization
+            const container = document.getElementById('visualization-container');
+            const canvas = document.createElement('canvas');
+            const containerRect = container.getBoundingClientRect();
+            
+            // Set canvas dimensions to match container
+            canvas.width = containerRect.width;
+            canvas.height = containerRect.height;
+            container.appendChild(canvas);
+            
+            // Create visualization module with no scraper yet (will use placeholder data)
+            const visualizer = new CCRUVisualizationModule(null);
+            visualizer.initialize(canvas);
+            
+            // Start animation by default
+            visualizer.startAnimation();
+            
+            // Set up UI controls
+            const modeSelect = document.getElementById('visual-mode');
+            const colorSchemeSelect = document.getElementById('color-scheme');
+            const pulseRateSlider = document.getElementById('pulse-rate');
+            const pulseRateValue = document.getElementById('pulse-rate-value');
+            const flattenRateSlider = document.getElementById('flatten-rate');
+            const flattenRateValue = document.getElementById('flatten-rate-value');
+            const nodeSizeSlider = document.getElementById('node-size');
+            const nodeSizeValue = document.getElementById('node-size-value');
+            const connectionVisibilitySlider = document.getElementById('connection-visibility');
+            const connectionVisibilityValue = document.getElementById('connection-value');
+            const toggleAnimationButton = document.getElementById('toggle-animation');
+            const resetViewButton = document.getElementById('reset-view');
+            const connectScraperButton = document.getElementById('connect-scraper');
+            const usePlaceholderButton = document.getElementById('use-placeholder');
+            const statusMessage = document.getElementById('status-message');
+            
+            // Connect event listeners
+            modeSelect.addEventListener('change', function() {
+                visualizer.currentMode = this.value;
+                visualizer.updateModeLabel();
+                
+                // Update status message
+                updateStatus(`Visualization mode changed to ${this.value.toUpperCase()}.`, 'info');
+            });
+            
+            colorSchemeSelect.addEventListener('change', function() {
+                // Set the color scheme based on selection
+                if (visualizer.colorSchemes[this.value]) {
+                    visualizer.currentColorScheme = this.value;
+                    
+                    // Update status message
+                    updateStatus(`Color scheme changed to ${this.value.toUpperCase()}.`, 'info');
+                }
+            });
+            
+            // Parameter sliders
+            pulseRateSlider.addEventListener('input', function() {
+                visualizer.viralPulseRate = parseFloat(this.value);
+                pulseRateValue.textContent = this.value;
+            });
+            
+            flattenRateSlider.addEventListener('input', function() {
+                visualizer.flatteningRate = parseFloat(this.value);
+                flattenRateValue.textContent = this.value;
+            });
+            
+            nodeSizeSlider.addEventListener('input', function() {
+                visualizer.nodeSizeMultiplier = parseFloat(this.value);
+                nodeSizeValue.textContent = this.value;
+            });
+            
+            connectionVisibilitySlider.addEventListener('input', function() {
+                visualizer.connectionOpacity = parseFloat(this.value);
+                connectionVisibilityValue.textContent = this.value;
+            });
+            
+            // Button actions
+            toggleAnimationButton.addEventListener('click', function() {
+                visualizer.toggleAnimation();
+                this.textContent = visualizer.animationActive ? 'Pause Animation' : 'Resume Animation';
+            });
+            
+            resetViewButton.addEventListener('click', function() {
+                // Reset all visual parameters to defaults
+                modeSelect.value = 'hybrid';
+                visualizer.currentMode = 'hybrid';
+                
+                colorSchemeSelect.value = 'hybrid';
+                visualizer.currentColorScheme = 'hybrid';
+                
+                pulseRateSlider.value = 0.5;
+                visualizer.viralPulseRate = 0.5;
+                pulseRateValue.textContent = '0.5';
+                
+                flattenRateSlider.value = 0.3;
+                visualizer.flatteningRate = 0.3;
+                flattenRateValue.textContent = '0.3';
+                
+                nodeSizeSlider.value = 1.0;
+                visualizer.nodeSizeMultiplier = 1.0;
+                nodeSizeValue.textContent = '1.0';
+                
+                connectionVisibilitySlider.value = 0.7;
+                visualizer.connectionOpacity = 0.7;
+                connectionVisibilityValue.textContent = '0.7';
+                
+                // Update status
+                updateStatus('Visualization settings reset to defaults.', 'info');
+            });
+            
+            // Connect to CCRU Scraper
+            connectScraperButton.addEventListener('click', async function() {
+                // This would typically involve connecting to an active scraper instance
+                // For demo purposes, we'll simulate connecting after a brief delay
+                
+                updateStatus('Connecting to CCRU Data Scraper...', 'info');
+                this.disabled = true;
+                
+                // Simulate connection delay
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                try {
+                    // In a real implementation, this would connect to an actual scraper
+                    const scraper = new BlueskyScraperCCRU();
+                    
+                    // Simulate authentication and data retrieval
+                    updateStatus('Authenticating with Bluesky...', 'info');
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    
+                    // Simulate successful connection
+                    updateStatus('Successfully connected to CCRU Data Scraper. Fetching live data...', 'info');
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    
+                    // Update the visualizer with the scraper instance
+                    // In a real implementation, this would use actual scraper data
+                    visualizer.scraper = scraper;
+                    
+                    // Success message
+                    updateStatus('Live data connection established. Visualization now reflects actual CCRU concept propagation.', 'success');
+                } catch (error) {
+                    // Handle connection error
+                    updateStatus(`Connection error: ${error.message}`, 'error');
+                } finally {
+                    this.disabled = false;
+                }
+            });
+            
+            // Use placeholder data
+            usePlaceholderButton.addEventListener('click', function() {
+                // Reset to placeholder data
+                visualizer.scraper = null;
+                
+                // Update status
+                updateStatus('Using placeholder data for visualization. This simulates CCRU concept propagation patterns.', 'info');
+            });
+            
+            // Helper function to update status messages
+            function updateStatus(message, type) {
+                statusMessage.textContent = message;
+                statusMessage.className = `status ${type}`;
+            }
+            
+            // Handle window resize to adjust canvas size
+            window.addEventListener('resize', function() {
+                const containerRect = container.getBoundingClientRect();
+                canvas.width = containerRect.width;
+                canvas.height = containerRect.height;
+                
+                // Force a redraw
+                visualizer.render();
+            });
+            
+            // Set initial values for sliders
+            visualizer.nodeSizeMultiplier = 1.0;
+            visualizer.connectionOpacity = 0.7;
+            
+            // Add simple explanatory tooltip when hovering over the visualization
+            canvas.addEventListener('mousemove', function(e) {
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // Get data for visualization
+                const data = visualizer.prepareVisualizationData();
+                
+                // Check if mouse is over a node
+                const hoveredNode = visualizer.getNodeAtPosition(x, y, data);
+                
+                if (hoveredNode) {
+                    // Show tooltip with node info
+                    this.style.cursor = 'pointer';
+                    
+                    // In a full implementation, you would show a tooltip with node details
+                    // This could use a custom tooltip element positioned near the cursor
+                } else {
+                    this.style.cursor = 'default';
+                    // Hide tooltip if shown
+                }
+            });
+            
+            // Add click handler for nodes
+            canvas.addEventListener('click', function(e) {
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // Get data for visualization
+                const data = visualizer.prepareVisualizationData();
+                
+                // Check if click is on a node
+                const clickedNode = visualizer.getNodeAtPosition(x, y, data);
+                
+                if (clickedNode) {
+                    // In a full implementation, this would show detailed information
+                    // about the clicked node, perhaps in a modal or side panel
+                    
+                    // For now, just show an alert with basic node info
+                    alert(`${clickedNode.type.toUpperCase()}: ${clickedNode.label}\nValue: ${clickedNode.value}`);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
