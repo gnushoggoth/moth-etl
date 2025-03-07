@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYBORG - Companionship You Build On Respectful Gaming</title>
+    <style>
+        :root {
+            --primary: #3a86ff;
+            --secondary: #8338ec;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --accent: #ff006e;
+            --background: #e9ecef;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--dark);
+            background-color: var(--background);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+        
+        .logo {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .tagline {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        nav {
+            background-color: var(--dark);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        nav li {
+            margin: 0 1rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+        
+        nav a:hover {
+            color: var(--accent);
+        }
+        
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        h1, h2, h3 {
+            color: var(--primary);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .cta-button:hover {
+            background-color: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        
+        .feature-card {
+            flex-basis: calc(33.333% - 2rem);
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            border-top: 4px solid var(--primary);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .companions {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .companion-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .companion-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .companion-image {
+            height: 200px;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .companion-details {
+            padding: 1.5rem;
+        }
+        
+        .companion-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .companion-title {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .testimonials {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .testimonial {
+            flex-basis: calc(50% - 2rem);
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--accent);
+        }
+        
+        .testimonial-content {
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+        
+        .testimonial-author {
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .how-it-works {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        
+        .step {
+            flex-basis: calc(25% - 2rem);
+            text-align: center;
+            padding: 1rem;
+        }
+        
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin: 0 auto 1rem;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .social-links {
+            margin: 1rem 0;
+        }
+        
+        .social-links a {
+            color: white;
+            margin: 0 0.5rem;
+            text-decoration: none;
+        }
+        
+        form div {
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        
+        @media (max-width: 768px) {
+            .feature-card, .testimonial, .step {
+                flex-basis: 100%;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav li {
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">CYBORG</div>
+        <div class="tagline">Companionship You Build On Respectful Gaming</div>
+        <a href="#book" class="cta-button">Book a Companion</a>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#companions">Our Companions</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#book">Book Now</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <main>
+        <section id="about">
+            <h2>About CYBORG</h2>
+            <p>CYBORG offers a unique service: companionship from retired male gamers who understand the value of respectful interaction. We provide women with judgment-free company from men who have left behind the competitive gaming scene but carry forward the skills of teamwork, strategy, and genuine conversation.</p>
+            <p>Our companions offer platonic friendship and engaging conversation without the pressures or expectations often found in typical social interactions. Whether you want to learn about gaming, have someone to accompany you to an event, or simply enjoy relaxed conversation over coffee, our CYBORG companions are here to provide respectful, enjoyable company.</p>
+        </section>
+        
+        <section id="services">
+            <h2>Our Services</h2>
+            <p>We offer various companionship options tailored to your preferences:</p>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <h3>Coffee Companions</h3>
+                    <p>Enjoy relaxed conversation over coffee or tea. Our companions are great listeners and engaging conversationalists who can discuss everything from current events to gaming culture.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>Event Buddies</h3>
+                    <p>Need someone to accompany you to a concert, art exhibition, or social gathering? Our companions provide friendly, reliable company without any social pressure.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>Gaming Guides</h3>
+                    <p>Want to learn about gaming or improve your skills? Our retired gamers can introduce you to new games, share strategies, or just enjoy gaming together in a supportive environment.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>Tech Support</h3>
+                    <p>Our companions can help with computer setup, software installation, or teaching you how to use new technology. Patient explanation without condescension guaranteed.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>Walking Partners</h3>
+                    <p>Enjoy the outdoors with a respectful companion for park walks, hiking, or city exploration. Safety and good conversation included.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>Custom Companionship</h3>
+                    <p>Have a specific activity in mind? We can match you with the perfect companion for your needs, whether it's helping with a project or just having someone to talk to.</p>
+                </div>
+            </div>
+            
+            <div class="how-it-works">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Browse Profiles</h3>
+                    <p>View our companions' backgrounds, interests, and specialties.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Book a Session</h3>
+                    <p>Select a companion and schedule a time that works for you.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Meet Safely</h3>
+                    <p>All initial meetings happen in public places for your comfort.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Enjoy Company</h3>
+                    <p>Experience respectful, engaging companionship.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="companions">
+            <h2>Meet Our Companions</h2>
+            <p>Our companions are carefully selected for their communication skills, respectful attitudes, and interesting backgrounds. Each has passed extensive background checks and training in professional companionship.</p>
+            
+            <div class="companions">
+                <div class="companion-card">
+                    <div class="companion-image">
+                        <img src="/api/placeholder/250/200" alt="placeholder" />
+                    </div>
+                    <div class="companion-details">
+                        <div class="companion-name">Marcus</div>
+                        <div class="companion-title">Former E-Sports Coach | Strategy Game Expert</div>
+                        <p>After 15 years in competitive gaming, Marcus now enjoys sharing his strategic thinking and patient coaching style. Excellent conversationalist who specializes in helping newcomers feel comfortable.</p>
+                    </div>
+                </div>
+                
+                <div class="companion-card">
+                    <div class="companion-image">
+                        <img src="/api/placeholder/250/200" alt="placeholder" />
+                    </div>
+                    <div class="companion-details">
+                        <div class="companion-name">David</div>
+                        <div class="companion-title">Retired Game Developer | Tech Enthusiast</div>
+                        <p>With a background in game development, David combines technical knowledge with excellent communication skills. Perfect for tech support, gaming sessions, or discussions about the industry.</p>
+                    </div>
+                </div>
+                
+                <div class="companion-card">
+                    <div class="companion-image">
+                        <img src="/api/placeholder/250/200" alt="placeholder" />
+                    </div>
+                    <div class="companion-details">
+                        <div class="companion-name">Jamal</div>
+                        <div class="companion-title">Gaming Commentator | Coffee Connoisseur</div>
+                        <p>Known for his engaging commentary and warm personality, Jamal excels at making people feel heard and valued. Specializes in coffee shop meetups and cultural events.</p>
+                    </div>
+                </div>
+                
+                <div class="companion-card">
+                    <div class="companion-image">
+                        <img src="/api/placeholder/250/200" alt="placeholder" />
+                    </div>
+                    <div class="companion-details">
+                        <div class="companion-name">Robert</div>
+                        <div class="companion-title">Tabletop Game Master | Outdoor Enthusiast</div>
+                        <p>Combines his love of strategic gaming with appreciation for nature. Robert is ideal for hiking companions, park visits, or introducing you to the world of tabletop games.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="testimonials">
+            <h2>What Our Clients Say</h2>
+            <div class="testimonials">
+                <div class="testimonial">
+                    <p class="testimonial-content">"After years of dealing with men who either hit on me or talked down to me about games, my CYBORG companion was a breath of fresh air. Just good conversation and respect, exactly what I needed."</p>
+                    <p class="testimonial-author">Sarah K.</p>
+                </div>
+                
+                <div class="testimonial">
+                    <p class="testimonial-content">"I needed someone to accompany me to a work event and was tired of navigating the dating scene just to find a plus-one. My companion was professional, engaging with my colleagues, and made the evening stress-free."</p>
+                    <p class="testimonial-author">Michelle T.</p>
+                </div>
+                
+                <div class="testimonial">
+                    <p class="testimonial-content">"As a woman who wanted to explore gaming without the typical gatekeeping, my CYBORG companion was perfect. Patient, knowledgeable, and focused on making sure I had fun rather than proving his own expertise."</p>
+                    <p class="testimonial-author">Jennifer L.</p>
+                </div>
+                
+                <div class="testimonial">
+                    <p class="testimonial-content">"I just needed someone to help set up my new computer without the condescension I usually get from tech support. My companion explained everything clearly and respectfully. Highly recommend!"</p>
+                    <p class="testimonial-author">Patricia M.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="book">
+            <h2>Book a Companion</h2>
+            <p>Ready to experience respectful, enjoyable company? Fill out the form below to start the process. We'll match you with a companion based on your preferences and schedule a safe, public meeting.</p>
+            
+            <form>
+                <div>
+                    <label for="name">Your Name:</label>
+                    <input type="text" id="name" required>
+                </div>
+                
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" required>
+                </div>
+                
+                <div>
+                    <label for="service">Service Type:</label>
+                    <select id="service" required>
+                        <option value="">Please select</option>
+                        <option value="coffee">Coffee Companion</option>
+                        <option value="event">Event Buddy</option>
+                        <option value="gaming">Gaming Guide</option>
+                        <option value="tech">Tech Support</option>
+                        <option value="walking">Walking Partner</option>
+                        <option value="custom">Custom Companionship</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="companion">Preferred Companion (Optional):</label>
+                    <select id="companion">
+                        <option value="">No preference</option>
+                        <option value="marcus">Marcus</option>
+                        <option value="david">David</option>
+                        <option value="jamal">Jamal</option>
+                        <option value="robert">Robert</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="date">Preferred Date:</label>
+                    <input type="date" id="date" required>
+                </div>
+                
+                <div>
+                    <label for="time">Preferred Time:</label>
+                    <input type="time" id="time" required>
+                </div>
+                
+                <div>
+                    <label for="details">Additional Details:</label>
+                    <textarea id="details" rows="4" placeholder="Tell us about your needs or any specific requests"></textarea>
+                </div>
+                
+                <button type="submit" class="cta-button">Request Booking</button>
+            </form>
+        </section>
+        
+        <section id="contact">
+            <h2>Contact Us</h2>
+            <p>Have questions about our services? We're here to help.</p>
+            
+            <div>
+                <p><strong>Email:</strong> hello@cyborgcompanions.com</p>
+                <p><strong>Phone:</strong> (555) 123-4567</p>
+                <p><strong>Hours:</strong> Monday-Friday 9am-5pm, Weekend bookings available</p>
+            </div>
+            
+            <form>
+                <div>
+                    <label for="contact-name">Name:</label>
+                    <input type="text" id="contact-name" required>
+                </div>
+                
+                <div>
+                    <label for="contact-email">Email:</label>
+                    <input type="email" id="contact-email" required>
+                </div>
+                
+                <div>
+                    <label for="contact-message">Message:</label>
+                    <textarea id="contact-message" rows="4" required></textarea>
+                </div>
+                
+                <button type="submit" class="cta-button">Send Message</button>
+            </form>
+        </section>
+    </main>
+    
+    <footer>
+        <p>© 2025 CYBORG - Companionship You Build On Respectful Gaming</p>
+        <div class="social-links">
+            <a href="#">Twitter</a> | 
+            <a href="#">Instagram</a> | 
+            <a href="#">Facebook</a> | 
+            <a href="#">Discord</a>
+        </div>
+        <p>All companionship services are strictly platonic. CYBORG is committed to providing safe, respectful interactions.</p>
+    </footer>
+</body>
+</html>
