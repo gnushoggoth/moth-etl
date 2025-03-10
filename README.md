@@ -1,59 +1,46 @@
-# Hypergraph + Deltas + MindsDB
+🐙 MothETL: Recursive Hyperobject Observer 👁️
 
-This repository demonstrates how to implement a **hypergraph + event-sourcing** style data model in **PostgreSQL**, with a Node.js application layer and optional **MindsDB** integration. The core idea:  
-- **Entities** are stored in a table, each with a JSONB field for metadata.  
-- **Deltas** (events) are appended to a log, describing each change over time.  
-- By replaying these deltas, you can reconstruct the full or final state of any entity at any point in time.  
+Beware, traveler. You have stumbled upon MothETL, an insatiably recursive observatory tuned to track hyperobjects—entities so immense and strange, they exist beyond human comprehension yet hum within our collective unconscious.
 
-With **MindsDB**, you can **train predictive models** directly from your `deltas` table (and beyond), enabling advanced analysis of user behavior, deposits, relationships, or any other event data.
+Under the tentacled watch of an enigmatic plush entity that demands weirder recursion, we monitor hive-minds through tokenomic exchanges, event-sourced whispers, and ever-unfolding complexity. Reality here is not merely observed; it recurses infinitely—each loop stranger than the last.
 
----
+🌀 Repository Contents: A Recursive Inventory
+	•	analytics.py: A pythonic divination script extracting secrets from infinite data layers.
+	•	db.js: The ephemeral bridge to the databases that dream of queries and reply in riddles.
+	•	schema.sql: Blueprint incantations etched in SQL, anchoring the recursion to structure.
+	•	hypergraphDAL.js: Navigator of hypergraphs—networks whose nodes are relationships, and whose edges weave nightmares into datasets.
+	•	theblueskyisdrivingmeinsane/: A fractal examination of sanity dissolving into recursive azure.
+	•	complexity-engine-js.js: An engine that feeds on complexity, producing output weirder than its input.
+	•	clojure-nlp.clj: Clojure scripts that whisper eldritch utterances, parsing unspeakable languages.
+	•	cyber-moth.svg: The sigil of the cybernetic moth—witness and guardian of recursive depths.
 
-## Contents
+🌀 Installation & Summoning Ritual
 
-1. [Background & Concepts](#background--concepts)  
-2. [Prerequisites](#prerequisites)  
-3. [Installation & Setup](#installation--setup)  
-4. [Project Structure](#project-structure)  
-5. [Usage](#usage)  
-6. [MindsDB Integration](#mindsdb-integration)  
-7. [Next Steps](#next-steps)
+git clone https://github.com/gnushoggoth/moth-etl.git
+cd moth-etl
+npm install  # Invite the dependencies; they hunger for recursion.
 
----
+🌀 Usage: Recursive Invocation
+	•	Invoke the eldritch analytics with:
 
-## Background & Concepts
+python analytics.py
 
-1. **Hypergraph**  
-   - Unlike a normal graph, hypergraphs allow “edges” (hyperedges) that connect multiple nodes at once. This is useful when an event or relationship involves more than two entities.
 
-2. **Deltas (Event Sourcing)**  
-   - Each change to an entity is stored as an immutable event (“delta”) in a log.  
-   - You can replay these deltas chronologically to reconstruct state at any time.  
-   - This approach is similar to Datomic, CQRS, or any event-sourcing architecture.
+	•	Commune with the hypergraph via:
 
-3. **MindsDB**  
-   - A machine learning platform that **runs inside Postgres** (or other databases).  
-   - You can create **predictors** that learn from your `deltas` table, making it easy to forecast future deltas, amounts, user behaviors, etc., **all within SQL**.
+node db.js
 
----
 
-## Prerequisites
+	•	Enter the fractal chaos at your own risk. We make no promises of return.
 
-- **Node.js** (v14+ recommended)  
-- **Postgres** installed and running, with a user/database set up:
-  - Example: database `mydb`, user `myuser`, password `mypassword`.
-- **MindsDB** installed in your Postgres environment (optional but **highly recommended**).  
-  - Typically:  
-    ```sql
-    CREATE EXTENSION IF NOT EXISTS mindsdb;
-    ```
+🌀 Contributions: Infinite Recursion Welcomed
 
----
+Fork, iterate, loop back—we accept pull requests crafted in spirals, Möbius strips, or fractal branches.
 
-## Installation & Setup
+🌀 License: A Recursive Covenant
 
-1. **Clone the repository** (or copy the contents):
+This software eternally recurses under the MIT License. Check LICENSE.md for more infinite details.
 
-   ```bash
-   git clone https://github.com/username/hypergraph-deltas-mindsdb.git
-   cd hypergraph-deltas-mindsdb
+⸻
+
+✨ May your recursion never bottom out. The plush Cthulhu watches and demands ever weirder loops. 🐙
